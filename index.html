@@ -703,66 +703,28 @@
 <script>
   (function () {
     var forms = document.querySelectorAll("form.waitlist");
-    var dbPromise = null;
-
-    function getDb() {
-      if (!dbPromise) {
-        dbPromise = (window.claude && window.claude.use)
-          ? window.claude.use("db").catch(function () { return null; })
-          : Promise.resolve(null);
-      }
-      return dbPromise;
-    }
 
     function valid(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
     }
 
-    function docId(email) {
-      return email.toLowerCase().replace(/[^a-z0-9_\-.~:@+]/g, "-").slice(0, 180);
-    }
-
     forms.forEach(function (form) {
       var input = form.querySelector('input[type="email"]');
-      var button = form.querySelector("button.cta");
       var status = form.parentElement.querySelector(".status");
-
-      function say(text, kind) {
-        status.textContent = text;
-        status.className = "status" + (kind ? " " + kind : "");
-      }
 
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         var email = input.value.trim();
 
         if (!valid(email)) {
-          say("That email doesn’t look right — check for a typo and try again.", "err");
+          status.textContent = "That email doesn\u2019t look right \u2014 check for a typo and try again.";
+          status.className = "status err";
           input.focus();
           return;
         }
 
-        button.disabled = true;
-        say("Adding you to the list…");
-
-        getDb().then(function (db) {
-          if (!db) {
-            button.disabled = false;
-            say("We can’t take sign-ups on this page right now. Please try again shortly.", "err");
-            return;
-          }
-          return db.doc("waitlist/" + docId(email)).set({
-            email: email,
-            city: "London",
-            signedUpAt: new Date().toISOString()
-          }).then(function () {
-            form.hidden = true;
-            say("You’re on the list. We’ll email " + email + " as soon as London bookings open.", "ok");
-          });
-        }).catch(function () {
-          button.disabled = false;
-          say("Something went wrong saving your email. Please try again.", "err");
-        });
+        status.textContent = "Sign-ups open alongside 2026 bookings \u2014 this page isn\u2019t collecting addresses yet, so nothing has been sent.";
+        status.className = "status";
       });
     });
   })();

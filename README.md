@@ -25,22 +25,23 @@ sign-up → Cambridge quote → footer.
 
 ## The waitlist
 
-Both forms write to the artifact's document store, deduplicated by email address:
+**The forms do not capture addresses.** On 2026-09-08 the data store was removed so the
+artifact could be shared publicly — an artifact that declares a store is organisation-internal
+and cannot be made public. The store was empty at the time, so no sign-ups were lost.
 
-```
-waitlist/<sanitised email> → { email, city: "London", signedUpAt }
-```
+Both forms now validate the address and then say plainly that sign-ups are not being
+collected yet, rather than appearing to succeed.
 
-Claude can read the list back with the Artifact tool's `read_db` action against the artifact
-URL, collection `waitlist`. The page degrades gracefully: if the store is unreachable the
-form says so rather than silently dropping the address.
+To capture real addresses, host `index.html` yourself and drop in an ESP embed (Mailchimp,
+ConvertKit). This cannot be done inside an artifact: the sandbox blocks all outbound network
+requests, so a third-party form endpoint will never fire. The earlier working version used
+the artifact document store at `waitlist/<sanitised email>`, which is available in this
+repo's git history.
 
 ## Known constraints and open items
 
-- **Not publicly shareable as-is.** Declaring the `db` capability makes an artifact
-  organisation-internal. For a genuinely public page the HTML needs self-hosting with a real
-  ESP embed (Mailchimp, ConvertKit) — artifacts cannot make outbound network requests, so a
-  third-party form endpoint will not work inside one.
+- **Email capture is not wired up** — see "The waitlist" above. This is the main thing
+  standing between this page and a real launch.
 - **Hero photo not embedded.** `--hero-image` in the `.hero` rule is a violet gradient
   standing in for a studio photograph. Replace that one declaration with
   `url("data:image/jpeg;base64,…")`. The overlay, `background-position: center 58%` and the
