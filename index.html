@@ -147,8 +147,9 @@
   /* ---------- hero ---------- */
 
   .hero {
-    /* Swap the line below for url("data:image/jpeg;base64,...") to drop the photo in. */
-    --hero-image: linear-gradient(155deg, #4B3BA8 0%, #2A2154 55%, #150F2C 100%);
+    /* Hosted: a real cached file. The artifact build inlines this as a data URI
+       (see tools/build-artifact.py) because artifacts cannot load remote images. */
+    --hero-image: url("/hero.jpg");
     --hero-overlay: linear-gradient(
       to right,
       rgba(11, 8, 24, .90) 0%,

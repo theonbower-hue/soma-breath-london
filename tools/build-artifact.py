@@ -8,10 +8,13 @@ Two differences from the hosted site, both required by the Artifact platform:
    falls back to an Archivo Black wordmark, which is the brand's own display face.
 2. No document shell. The Artifact runtime supplies its own doctype, <head> and
    <body>, so this strips ours to avoid nesting two documents.
+3. The hero photo inlined as a base64 data URI. Artifacts cannot load images over
+   the network at all, so url("/hero.jpg") would silently render nothing.
 
 Run: python3 tools/build-artifact.py
 """
 
+import base64
 import pathlib
 import re
 
@@ -44,9 +47,17 @@ markup = re.sub(
 
 out = head_inner.rstrip() + "\n\n" + markup.strip() + "\n"
 
+# 3. inline the hero photo — artifacts cannot fetch images over the network
+hero = ROOT / "hero.jpg"
+if 'url("/hero.jpg")' in out:
+    if not hero.exists():
+        raise SystemExit("hero.jpg is missing — the artifact hero would render blank")
+    encoded = base64.b64encode(hero.read_bytes()).decode("ascii")
+    out = out.replace('url("/hero.jpg")', f'url("data:image/jpeg;base64,{encoded}")')
+
 if "<svg" in out:
     raise SystemExit("build still contains an <svg> — public sharing would be refused")
 
 dest = ROOT / "build" / "artifact.html"
 dest.write_text(out, encoding="utf-8")
-print(f"wrote {dest.relative_to(ROOT)} ({len(out):,} bytes, 0 svg)")
+print(f"wrote {dest.relative_to(ROOT)} ({len(out):,} bytes, 0 svg, hero inlined)")

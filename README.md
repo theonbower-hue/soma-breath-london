@@ -14,6 +14,7 @@ waitlist. Built 2026-09-08 from client copy in a Google Doc.
 | `tools/build-artifact.py` | Generates the SVG-free Claude Artifact variant |
 | `build/artifact.html` | Generated — do not edit by hand |
 | `.vercelignore` | Keeps the working notes out of the deployed bundle |
+| `hero.jpg` | Hero photograph, 1800×1350, ~297KB |
 | `assets/soma-logo.svg` | Official logo as downloaded, before inlining |
 | `content/source-copy.md` | The original client copy from the Google Doc |
 | `docs/brand.md` | Brand tokens read off somabreath.com, and where each came from |
@@ -46,10 +47,6 @@ repo's git history.
 
 - **Email capture is not wired up** — see "The waitlist" above. This is the main thing
   standing between this page and a real launch.
-- **Hero photo not embedded.** `--hero-image` in the `.hero` rule is a violet gradient
-  standing in for a studio photograph. Replace that one declaration with
-  `url("data:image/jpeg;base64,…")`. The overlay, `background-position: center 58%` and the
-  light type colours are already tuned for a warm-toned room shot.
 - **Privacy policy links point at `#privacy`** in three places — needs the real URL.
 - **Cambridge and accreditation logos are missing.** The source doc called for them; the
   accreditation section was empty in the doc, so it was left out rather than invented. The
@@ -109,3 +106,13 @@ itself. It refuses to write the file if any `<svg>` survives. Re-run it after ch
 `index.html`, then republish to the artifact URL above.
 
 Carousel arrows are CSS chevrons rather than SVG icons for the same reason.
+
+The script also inlines `hero.jpg` as a base64 data URI, because artifacts cannot fetch
+images over the network — `url("/hero.jpg")` would silently render nothing. This is why the
+artifact build is ~431KB against the hosted page's ~41KB.
+
+## Hero photograph
+
+`hero.jpg` — Unsplash, by David Whipple (`PktK6GuC3U4`). Unsplash licence: free for
+commercial use, attribution not required. Downsized from 4032×3024 to 1800×1350 at quality
+50; it sits under a 52–90% dark overlay, so compression artefacts are not visible.
