@@ -171,9 +171,9 @@
     max-width: var(--wide);
     margin: 0 auto;
     padding: 5.5rem 1.5rem 5rem;
-    display: grid;
-    gap: 3rem;
   }
+
+  .hero .col { margin-top: 3rem; }
 
   .hero-intro { max-width: var(--col); margin-inline: auto; }
 
@@ -185,7 +185,8 @@
   .hero .signup { box-shadow: 0 30px 70px -34px rgba(0, 0, 0, .75); }
 
   @media (max-width: 620px) {
-    .hero-inner { padding: 3.5rem 1.5rem 3.25rem; gap: 2.25rem; }
+    .hero-inner { padding: 3.5rem 1.5rem 3.25rem; }
+    .hero .col { margin-top: 2.25rem; }
   }
 
   .eyebrow {
@@ -523,6 +524,8 @@
   .attrib { font-size: .82rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; }
 
   footer {
+    max-width: var(--col);
+    margin-inline: auto;
     border-top: 1px solid var(--line);
     padding: 2.25rem 0 0;
     display: flex;
