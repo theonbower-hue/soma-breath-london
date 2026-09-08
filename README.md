@@ -9,12 +9,14 @@ waitlist. Built 2026-09-08 from client copy in a Google Doc.
 
 | Path | What it is |
 | --- | --- |
-| `index.html` | The whole page — HTML, CSS, JS and the logo SVG, no build step |
+| `public/index.html` | The whole page — HTML, CSS, JS and the logo SVG, no build step |
+| `public/` | The deploy root — the only directory that ships |
+| `vercel.json` | Vercel config: static, publish `public/`, security headers |
 | `assets/soma-logo.svg` | Official logo as downloaded, before inlining |
 | `content/source-copy.md` | The original client copy from the Google Doc |
 | `docs/brand.md` | Brand tokens read off somabreath.com, and where each came from |
 
-`index.html` is self-contained: open it in a browser and it renders. The only network
+`public/index.html` is self-contained: open it in a browser and it renders. The only network
 request is the Google Fonts stylesheet.
 
 ## Page structure
@@ -55,6 +57,24 @@ repo's git history.
 
 ## Editing
 
-Change `index.html`, then republish to the same artifact URL to keep the link stable. Ask
+Change `public/index.html`, then republish to the same artifact URL to keep the link stable. Ask
 Claude to publish with that URL, or from a fresh conversation pass it explicitly — publishing
 without it creates a second, separate artifact.
+
+
+## Deploying
+
+Static site, no build step. Vercel serves `public/` and nothing else — `.vercelignore`
+keeps the README and working notes out of the public bundle.
+
+```bash
+npx vercel login      # one-time, opens a browser
+npx vercel --prod     # deploy
+```
+
+Custom domain `somabreath.houseifjung.org`:
+
+1. In the Vercel project, Settings → Domains → add `somabreath.houseifjung.org`.
+2. At whoever runs DNS for `houseifjung.org`, add a CNAME record:
+   `somabreath` → `cname.vercel-dns.com`
+3. TLS is issued automatically once the record resolves.

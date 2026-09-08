@@ -1,0 +1,6 @@
+# Only public/ is deployed. Keep working notes out of the public bundle —
+# README and docs/ contain internal open items, not site content.
+README.md
+assets/
+content/
+docs/
