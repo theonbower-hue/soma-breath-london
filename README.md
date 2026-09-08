@@ -15,6 +15,8 @@ waitlist. Built 2026-09-08 from client copy in a Google Doc.
 | `build/artifact.html` | Generated — do not edit by hand |
 | `.vercelignore` | Keeps the working notes out of the deployed bundle |
 | `hero.jpg` | Hero photograph, 1800×1350, ~297KB |
+| `community.jpg` | Outdoor group session — closes "What is SOMA Breath?" |
+| `session.jpg` | Indoor session — opens the Q&A block |
 | `assets/soma-logo.svg` | Official logo as downloaded, before inlining |
 | `content/source-copy.md` | The original client copy from the Google Doc |
 | `docs/brand.md` | Brand tokens read off somabreath.com, and where each came from |
@@ -107,12 +109,19 @@ itself. It refuses to write the file if any `<svg>` survives. Re-run it after ch
 
 Carousel arrows are CSS chevrons rather than SVG icons for the same reason.
 
-The script also inlines `hero.jpg` as a base64 data URI, because artifacts cannot fetch
-images over the network — `url("/hero.jpg")` would silently render nothing. This is why the
-artifact build is ~431KB against the hosted page's ~41KB.
+The script also inlines every local image as a base64 data URI, because artifacts cannot
+fetch images over the network — `/hero.jpg` and friends would silently render nothing. It
+scans for local image references and hard-fails if any survive, so adding a new photo needs
+no change to the script. This is why the artifact build is ~950KB against the hosted page's
+~43KB.
 
-## Hero photograph
+## Photographs
 
 `hero.jpg` — Unsplash, by David Whipple (`PktK6GuC3U4`). Unsplash licence: free for
 commercial use, attribution not required. Downsized from 4032×3024 to 1800×1350 at quality
 50; it sits under a 52–90% dark overlay, so compression artefacts are not visible.
+
+`community.jpg` and `session.jpg` are client-supplied SOMA Breath photographs, downsized to
+1200px wide at quality 62. Both captions are lifted from the source copy rather than
+invented — "group sessions worldwide, in many different formats" and "around 30 people in" —
+so nothing on the page claims more than the client's own brief does.
