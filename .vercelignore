@@ -1,6 +1,10 @@
-# Only index.html (plus vercel.json config) is deployed. The working notes stay
-# out of the public bundle — they contain internal open items, not site content.
+# Only index.html (plus vercel.json config) is deployed. Everything else is
+# working material: notes, source copy, and the generated artifact variant.
+# build/artifact.html especially must not ship — it is a near-duplicate of the
+# homepage and would be indexable duplicate content.
 README.md
 assets/
 content/
 docs/
+tools/
+build/
