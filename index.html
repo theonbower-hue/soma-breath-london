@@ -97,6 +97,8 @@
   /* ---------- masthead ---------- */
 
   .masthead {
+    max-width: var(--col);
+    margin-inline: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -173,9 +175,7 @@
     gap: 3rem;
   }
 
-  .hero-intro { max-width: 47rem; }
-
-  .hero .col { margin-inline: 0; max-width: 34rem; }
+  .hero-intro { max-width: var(--col); margin-inline: auto; }
 
   .hero .eyebrow { color: #CFC4FF; }
   .hero h1 { color: #FFFFFF; }
