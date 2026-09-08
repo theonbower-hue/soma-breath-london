@@ -122,6 +122,5 @@ commercial use, attribution not required. Downsized from 4032×3024 to 1800×135
 50; it sits under a 52–90% dark overlay, so compression artefacts are not visible.
 
 `community.jpg` and `session.jpg` are client-supplied SOMA Breath photographs, downsized to
-1200px wide at quality 62. Both captions are lifted from the source copy rather than
-invented — "group sessions worldwide, in many different formats" and "around 30 people in" —
-so nothing on the page claims more than the client's own brief does.
+1200px wide at quality 62. Both run without captions; the surrounding
+copy carries the context.
