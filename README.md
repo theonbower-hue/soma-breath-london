@@ -9,14 +9,14 @@ waitlist. Built 2026-09-08 from client copy in a Google Doc.
 
 | Path | What it is |
 | --- | --- |
-| `public/index.html` | The whole page — HTML, CSS, JS and the logo SVG, no build step |
-| `public/` | The deploy root — the only directory that ships |
-| `vercel.json` | Vercel config: static, publish `public/`, security headers |
+| `index.html` | The whole page — HTML, CSS, JS and the logo SVG, no build step |
+| `vercel.json` | Vercel config: clean URLs, security headers |
+| `.vercelignore` | Keeps the working notes out of the deployed bundle |
 | `assets/soma-logo.svg` | Official logo as downloaded, before inlining |
 | `content/source-copy.md` | The original client copy from the Google Doc |
 | `docs/brand.md` | Brand tokens read off somabreath.com, and where each came from |
 
-`public/index.html` is self-contained: open it in a browser and it renders. The only network
+`index.html` is self-contained: open it in a browser and it renders. The only network
 request is the Google Fonts stylesheet.
 
 ## Page structure
@@ -57,15 +57,24 @@ repo's git history.
 
 ## Editing
 
-Change `public/index.html`, then republish to the same artifact URL to keep the link stable. Ask
+Change `index.html`, then republish to the same artifact URL to keep the link stable. Ask
 Claude to publish with that URL, or from a fresh conversation pass it explicitly — publishing
 without it creates a second, separate artifact.
 
 
 ## Deploying
 
-Static site, no build step. Vercel serves `public/` and nothing else — `.vercelignore`
-keeps the README and working notes out of the public bundle.
+Static site, no build step. Vercel serves the repo root, so `index.html` sits at the top
+level; `.vercelignore` keeps the README, source copy and brand notes out of the deployed
+bundle. Do not set `outputDirectory` — a stale value is stored server-side on the project
+and will 404 the root even after you remove it from `vercel.json`. If that happens, delete
+the local `.vercel/` directory and deploy again to get a clean project.
+
+`index.html` is a complete standalone document — doctype, `<head>`, `<body>`, and its own
+CSS baseline (`body { margin: 0 }` and friends). The artifact runtime used to supply that
+wrapper; a self-hosted copy needs its own, or the page renders in quirks mode with a stray
+body margin that breaks the full-bleed hero. If you ever republish this file as an artifact,
+strip the shell back out — the artifact tool adds its own.
 
 ```bash
 npx vercel login      # one-time, opens a browser

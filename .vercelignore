@@ -1,5 +1,5 @@
-# Only public/ is deployed. Keep working notes out of the public bundle —
-# README and docs/ contain internal open items, not site content.
+# Only index.html (plus vercel.json config) is deployed. The working notes stay
+# out of the public bundle — they contain internal open items, not site content.
 README.md
 assets/
 content/
