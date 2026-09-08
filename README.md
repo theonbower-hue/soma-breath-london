@@ -11,6 +11,8 @@ waitlist. Built 2026-09-08 from client copy in a Google Doc.
 | --- | --- |
 | `index.html` | The whole page — HTML, CSS, JS and the logo SVG, no build step |
 | `vercel.json` | Vercel config: clean URLs, security headers |
+| `tools/build-artifact.py` | Generates the SVG-free Claude Artifact variant |
+| `build/artifact.html` | Generated — do not edit by hand |
 | `.vercelignore` | Keeps the working notes out of the deployed bundle |
 | `assets/soma-logo.svg` | Official logo as downloaded, before inlining |
 | `content/source-copy.md` | The original client copy from the Google Doc |
@@ -87,3 +89,23 @@ Custom domain `somabreath.houseifjung.org`:
 2. At whoever runs DNS for `houseifjung.org`, add a CNAME record:
    `somabreath` → `cname.vercel-dns.com`
 3. TLS is issued automatically once the record resolves.
+
+
+## The Claude Artifact variant
+
+<https://claude.ai/code/artifact/5ec9b2b5-0b02-424e-bea6-d5c7286a55ac>
+
+Claude Artifacts **cannot be shared publicly if the page embeds an SVG** — the format can
+carry script, so it fails automated review with "embeds a file type that can't be reviewed
+for public sharing". The hosted site keeps the real vector logo; the artifact gets a
+generated variant with an Archivo Black wordmark instead.
+
+```bash
+python3 tools/build-artifact.py    # index.html -> build/artifact.html
+```
+
+The script also strips our `<head>`/`<body>` shell, which the artifact runtime supplies
+itself. It refuses to write the file if any `<svg>` survives. Re-run it after changing
+`index.html`, then republish to the artifact URL above.
+
+Carousel arrows are CSS chevrons rather than SVG icons for the same reason.
