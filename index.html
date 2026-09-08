@@ -1,0 +1,838 @@
+<title>SOMA Breath London</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black:wght@400&family=Inter:ital,wght@0,300..700;1,300..700&display=swap">
+
+<style>
+  :root {
+    /* SOMA Breath brand */
+    --violet:       #6C56E6;
+    --violet-deep:  #5642C9;
+    --violet-tint:  #F7F6FF;
+    --ground:       #FFFFFF;
+    --ground-alt:   #F9F9F9;
+    --surface:      #F7F6FF;
+    --ink:          #232323;
+    --body-ink:     #111111;
+    --muted:        #6B6B78;
+    --line:         #E5E3F5;
+    --line-soft:    #EFEEF9;
+    --on-violet:    #FFFFFF;
+    --shadow:       0 18px 44px -28px rgba(108, 86, 230, .55);
+
+    --display: "Archivo Black", "Helvetica Neue", Arial, sans-serif;
+    --body: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+    --col: 40rem;
+    --wide: 68rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --violet:       #907CFF;
+      --violet-deep:  #A493FF;
+      --violet-tint:  #191534;
+      --ground:       #0D0B1A;
+      --ground-alt:   #120F24;
+      --surface:      #191534;
+      --ink:          #F3F2FB;
+      --body-ink:     #E3E1F2;
+      --muted:        #A09CBC;
+      --line:         #2A2450;
+      --line-soft:    #211C42;
+      --on-violet:    #100B26;
+      --shadow:       0 18px 44px -28px rgba(144, 124, 255, .5);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --violet:       #907CFF;
+    --violet-deep:  #A493FF;
+    --violet-tint:  #191534;
+    --ground:       #0D0B1A;
+    --ground-alt:   #120F24;
+    --surface:      #191534;
+    --ink:          #F3F2FB;
+    --body-ink:     #E3E1F2;
+    --muted:        #A09CBC;
+    --line:         #2A2450;
+    --line-soft:    #211C42;
+    --on-violet:    #100B26;
+    --shadow:       0 18px 44px -28px rgba(144, 124, 255, .5);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--body-ink);
+    font-family: var(--body);
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: var(--wide); margin: 0 auto; padding: 0 1.5rem 4.5rem; }
+  .page-head { padding-bottom: 0; }
+  .col { max-width: var(--col); margin-inline: auto; }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.6rem 0 1.4rem;
+  }
+
+  .wordmark {
+    display: block;
+    color: var(--ink);
+    line-height: 0;
+    text-decoration: none;
+  }
+
+  .logo-svg {
+    display: block;
+    height: 38px;
+    width: auto;
+  }
+
+  @media (max-width: 460px) {
+    .logo-svg { height: 30px; }
+  }
+
+  .badge {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--violet);
+    background: var(--violet-tint);
+    border: 1px solid var(--line);
+    border-radius: 50px;
+    padding: .35rem .85rem;
+    white-space: nowrap;
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero {
+    /* Swap the line below for url("data:image/jpeg;base64,...") to drop the photo in. */
+    --hero-image: linear-gradient(155deg, #4B3BA8 0%, #2A2154 55%, #150F2C 100%);
+    --hero-overlay: linear-gradient(
+      to right,
+      rgba(11, 8, 24, .90) 0%,
+      rgba(11, 8, 24, .78) 42%,
+      rgba(11, 8, 24, .52) 100%
+    );
+    --hero-veil: linear-gradient(to bottom, rgba(11, 8, 24, .45) 0%, rgba(11, 8, 24, .18) 40%, rgba(11, 8, 24, .55) 100%);
+
+    background-color: #0B0818;
+    background-image: var(--hero-veil), var(--hero-overlay), var(--hero-image);
+    background-size: cover;
+    background-position: center 58%;
+    background-repeat: no-repeat;
+  }
+
+  .hero-inner {
+    max-width: var(--wide);
+    margin: 0 auto;
+    padding: 5.5rem 1.5rem 5rem;
+    display: grid;
+    gap: 3rem;
+  }
+
+  .hero-intro { max-width: 47rem; }
+
+  .hero .col { margin-inline: 0; max-width: 34rem; }
+
+  .hero .eyebrow { color: #CFC4FF; }
+  .hero h1 { color: #FFFFFF; }
+  .hero h1 span { color: #CFC4FF; }
+  .hero .standfirst { color: rgba(255, 255, 255, .88); }
+
+  .hero .signup { box-shadow: 0 30px 70px -34px rgba(0, 0, 0, .75); }
+
+  @media (max-width: 620px) {
+    .hero-inner { padding: 3.5rem 1.5rem 3.25rem; gap: 2.25rem; }
+  }
+
+  .eyebrow {
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin: 0 0 1rem;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2.35rem, 5.6vw, 3.9rem);
+    line-height: 1.08;
+    letter-spacing: -.032em;
+    color: var(--ink);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  h1 span { color: var(--violet); }
+
+  .standfirst {
+    font-size: 1.12rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--body-ink);
+    margin: 1.5rem 0 0;
+    max-width: 36rem;
+  }
+
+  /* ---------- signup ---------- */
+
+  .signup {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 2.4rem 2.1rem 1.9rem;
+    display: grid;
+    gap: 1.15rem;
+  }
+
+  .signup h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.4rem, 3.2vw, 1.8rem);
+    line-height: 1.18;
+    letter-spacing: -.028em;
+    color: var(--ink);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .signup p.lede { margin: 0; color: var(--body-ink); font-weight: 300; font-size: 1rem; }
+
+  form.waitlist { display: grid; gap: .75rem; }
+  .field { display: grid; gap: .45rem; }
+
+  label {
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input[type="email"] {
+    font-family: var(--body);
+    font-size: 1rem;
+    color: var(--body-ink);
+    background: var(--ground);
+    border: 1px solid var(--line);
+    border-radius: 50px;
+    padding: .9rem 1.15rem;
+    width: 100%;
+  }
+
+  input[type="email"]::placeholder { color: var(--muted); opacity: .8; }
+
+  input[type="email"]:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 2px;
+  }
+
+  button.cta {
+    font-family: var(--body);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--on-violet);
+    background: var(--violet);
+    border: 1px solid var(--violet);
+    border-radius: 50px;
+    padding: .95rem 1.4rem;
+    cursor: pointer;
+    transition: background .18s ease, border-color .18s ease, transform .18s ease;
+  }
+
+  button.cta:hover:not(:disabled) {
+    background: var(--violet-deep);
+    border-color: var(--violet-deep);
+    transform: translateY(-1px);
+  }
+
+  button.cta:disabled { opacity: .55; cursor: default; }
+
+  .status { font-size: .92rem; line-height: 1.5; margin: 0; min-height: 1.4rem; color: var(--muted); }
+  .status.ok { color: var(--violet); font-weight: 600; }
+  .status.err { color: #D1345B; font-weight: 500; }
+
+  .fineprint { font-size: .82rem; font-weight: 300; color: var(--muted); margin: 0; line-height: 1.5; }
+
+  a { color: inherit; text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--line); }
+  a:hover { text-decoration-color: var(--violet); }
+
+  /* ---------- sections ---------- */
+
+  section { padding: 3.75rem 0; border-top: 1px solid var(--line-soft); }
+
+  h2.sec {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.75rem, 4vw, 2.4rem);
+    line-height: 1.14;
+    letter-spacing: -.032em;
+    color: var(--ink);
+    margin: 0 0 1.5rem;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 1.18rem;
+    line-height: 1.3;
+    letter-spacing: -.025em;
+    color: var(--ink);
+    margin: 0 0 .6rem;
+  }
+
+  p { margin: 0 0 1.1rem; font-weight: 300; }
+  p:last-child { margin-bottom: 0; }
+
+  .sec-label {
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin: 0 0 .9rem;
+  }
+
+  /* ---------- ceremony carousel ---------- */
+
+  .carousel { display: grid; gap: 1.4rem; }
+
+  .track {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: .25rem;
+  }
+
+  .track::-webkit-scrollbar { display: none; }
+  .track:focus-visible { outline: 2px solid var(--violet); outline-offset: 4px; border-radius: 22px; }
+
+  .step {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 2rem 2rem 2.1rem;
+    display: grid;
+    gap: .9rem;
+    align-content: start;
+  }
+
+  .step-num {
+    font-family: var(--display);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.6rem;
+    line-height: 1;
+    letter-spacing: -.03em;
+    color: var(--violet);
+  }
+
+  .step p { margin: 0; }
+
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .arrows { display: flex; gap: .55rem; }
+
+  .nav {
+    width: 2.9rem;
+    height: 2.9rem;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--ground);
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background .18s ease, border-color .18s ease, color .18s ease;
+  }
+
+  .nav svg { width: 1.15rem; height: 1.15rem; display: block; }
+
+  .nav:hover:not(:disabled) { background: var(--violet); border-color: var(--violet); color: var(--on-violet); }
+  .nav:disabled { opacity: .35; cursor: default; }
+
+  .dots { display: flex; gap: .45rem; align-items: center; }
+
+  .dot {
+    width: .55rem;
+    height: .55rem;
+    padding: 0;
+    border: none;
+    border-radius: 50px;
+    background: var(--line);
+    cursor: pointer;
+    transition: width .18s ease, background .18s ease;
+  }
+
+  .dot[aria-current="true"] { width: 1.7rem; background: var(--violet); }
+
+  @media (max-width: 560px) {
+    .step { padding: 1.6rem 1.5rem 1.75rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .track { scroll-behavior: auto; }
+    .nav, .dot { transition: none; }
+  }
+
+  /* ---------- Q&A ---------- */
+
+  .qa { display: grid; gap: 1.25rem; }
+
+  .qa > div {
+    background: var(--ground-alt);
+    border: 1px solid var(--line-soft);
+    border-radius: 18px;
+    padding: 1.6rem 1.7rem;
+  }
+
+  /* ---------- benefits ---------- */
+
+  .benefits {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 3rem;
+  }
+
+  @media (max-width: 760px) {
+    .benefits { grid-template-columns: minmax(0, 1fr); gap: 2.2rem; }
+  }
+
+  .benefits ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .65rem; }
+
+  .benefits li {
+    font-size: 1rem;
+    font-weight: 300;
+    padding-left: 1.6rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .benefits li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .5em;
+    width: .62rem;
+    height: .62rem;
+    border-radius: 50%;
+    background: var(--violet);
+  }
+
+  /* ---------- research ---------- */
+
+  .research { display: grid; gap: 1.4rem; justify-items: center; text-align: center; }
+
+  blockquote {
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+    line-height: 1.45;
+    margin: 0;
+    max-width: 38rem;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  .attrib { font-size: .82rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.25rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: .84rem;
+    font-weight: 300;
+    color: var(--muted);
+  }
+</style>
+
+<div class="page page-head">
+
+  <header class="masthead">
+    <a class="wordmark" href="https://www.somabreath.com/" aria-label="SOMA Breath">
+      <svg class="logo-svg" role="img" aria-label="SOMA Breath" xmlns="http://www.w3.org/2000/svg" width="178" height="60" viewBox="0 0 178 60" fill="none"><g clip-path="url(#somaLogoClip)"><path d="M73.7133 2.78306C72.0315 0.927767 69.5312 0.000120163 66.2117 0.000120163H48.183C44.989 0.000120163 42.6252 0.759033 41.0914 2.27686C39.5569 3.79468 38.7903 6.13441 38.7903 9.2968V32.8231C38.7903 34.4677 38.9795 35.8378 39.3577 36.9341C39.7359 38.0313 40.3451 38.9799 41.1852 39.7801C42.1517 40.6657 43.2344 41.2878 44.4318 41.6455C45.6292 42.0047 47.2576 42.1835 49.3168 42.1835H65.4538C69.0251 42.1835 71.6098 41.4464 73.2072 39.9698C74.8037 38.4947 75.602 36.1122 75.602 32.8231V9.17006C75.602 7.61102 75.4649 6.35602 75.192 5.40737C74.9184 4.45873 74.4248 3.58396 73.7102 2.78306H73.7133ZM35.7414 22.4837C35.1523 21.4511 34.2812 20.5973 33.1256 19.9224C31.9693 19.2482 30.4254 18.5313 28.4925 17.7716L20.8646 14.7989C19.94 14.4195 19.1944 14.103 18.6271 13.8503C18.0598 13.5976 17.6281 13.3659 17.3344 13.1544C17.0399 12.9436 16.8507 12.7111 16.767 12.4584C16.6826 12.2057 16.6407 11.911 16.6407 11.5728C16.6407 10.9826 16.819 10.4974 17.1763 10.1179C17.5328 9.73847 17.9854 9.54874 18.5318 9.54874C19.9183 9.54874 20.612 10.1965 20.612 12.4304L21.5195 13.3433H35.4507C36.342 13.3433 37.0651 12.6186 37.0651 11.7236V9.16928C37.0651 7.44151 36.8652 6.01855 36.466 4.9004C36.0661 3.7838 35.4042 2.82427 34.4804 2.02259C34.0177 1.64314 33.5442 1.31733 33.0621 1.04207C32.5785 0.768364 32.022 0.558419 31.3911 0.409124C30.761 0.262163 30.0139 0.156413 29.1536 0.0934291C28.2925 0.0320007 27.2734 0.000120163 26.0969 0.000120163H10.6528C8.50985 0.000120163 6.87066 0.126865 5.73601 0.379577C4.60136 0.633066 3.6132 1.09728 2.77306 1.77066C1.80582 2.57234 1.10287 3.59485 0.661102 4.83819C0.220884 6.08231 0 7.695 0 9.67626C0 11.2788 0.0519271 12.5758 0.157331 13.5665C0.261961 14.5571 0.461144 15.3689 0.756431 16.0011C1.30205 17.3921 2.10111 18.5212 3.15205 19.3843C4.20145 20.2489 5.82049 21.1027 8.0053 21.9456L16.8306 25.2977C17.6707 25.636 18.3435 25.9206 18.848 26.1515C19.3525 26.384 19.7401 26.6476 20.0136 26.9423C20.2865 27.2378 20.4647 27.5745 20.55 27.9539C20.6337 28.3334 20.6755 28.7976 20.6755 29.345C20.6755 31.4515 19.9834 32.5051 18.6 32.5074C18.2047 32.5074 17.7994 32.3939 17.4948 32.1404C16.8833 31.6295 16.5779 30.7408 16.5779 29.4725V27.4034C16.5779 26.9042 16.1741 26.4991 15.6766 26.4991H1.73607C0.84711 26.4991 0.12633 27.2222 0.12633 28.1141V31.9382C0.12633 34.0042 0.262736 35.5742 0.536322 36.6495C0.809133 37.7249 1.36561 38.7047 2.20652 39.5903C3.04665 40.5607 4.09759 41.2349 5.35857 41.6144C6.61955 41.9938 8.36259 42.1835 10.5908 42.1835H26.4131C30.3216 42.1835 33.0946 41.4565 34.7338 40.0017C36.373 38.5468 37.1922 36.1122 37.1922 32.6971C37.1922 30.1257 37.0977 28.0387 36.9086 26.4361C36.7195 24.8343 36.3304 23.5171 35.7421 22.4837H35.7414ZM126.478 0.000120163H107.722C107.112 0.000120163 106.581 0.420788 106.438 1.01641L103.152 14.7974C103.072 15.1317 102.598 15.1317 102.518 14.7974L99.232 1.01641C99.0909 0.420788 98.5592 0.000120163 97.9485 0.000120163H79.13C78.4007 0.000120163 77.8101 0.59341 77.8101 1.32433V40.8593C77.8101 41.591 78.4014 42.1835 79.13 42.1835H91.3034C92.0327 42.1835 92.6233 41.5903 92.6233 40.8593V24.8429C92.6233 24.4626 93.1611 24.3888 93.2635 24.755L97.8385 41.2147C97.9973 41.787 98.5174 42.1835 99.1103 42.1835H106.438C107.03 42.1835 107.548 41.7893 107.708 41.2186L112.345 24.7278C112.448 24.3623 112.985 24.437 112.985 24.8164V40.8593C112.985 41.591 113.576 42.1835 114.305 42.1835H126.478C127.208 42.1835 127.798 41.5903 127.798 40.8593V1.32433C127.798 0.59341 127.208 0.000120163 126.478 0.000120163ZM169.32 40.6307L162.407 1.09572C162.297 0.462 161.748 0.000120163 161.107 0.000120163H137.604C136.964 0.000120163 136.416 0.461222 136.304 1.09417L129.333 40.6292C129.189 41.4402 129.812 42.1843 130.632 42.1843H144.959C145.632 42.1843 146.197 41.6766 146.271 41.0055L147.079 33.6574C147.12 33.2912 147.428 33.0144 147.795 33.0144H151.03C151.403 33.0144 151.714 33.2998 151.747 33.6722L152.4 40.9791C152.461 41.6618 153.032 42.1851 153.714 42.1851H168.018C168.838 42.1851 169.461 41.4425 169.319 40.6315L169.32 40.6307ZM150.351 23.7169H148.422C148.08 23.7169 147.813 23.4183 147.85 23.0762L149.092 11.6093C149.127 11.2866 149.594 11.2858 149.631 11.6078L150.923 23.0731C150.961 23.416 150.694 23.7161 150.35 23.7161L150.351 23.7169Z" fill="currentColor"></path><path d="M64.7405 23.1296H49.6522C49.3213 23.1296 49.0911 23.4577 49.2019 23.7703L49.5817 24.8364C49.6499 25.0269 49.8297 25.1544 50.032 25.1544H64.3615C64.5638 25.1544 64.7436 25.0269 64.8118 24.8364L65.1916 23.7703C65.3024 23.4577 65.0722 23.1296 64.7413 23.1296H64.7405ZM65.7512 20.2922H48.6423C48.3114 20.2922 48.0812 20.6211 48.192 20.9329L48.4765 21.7323C48.5447 21.9228 48.7245 22.0503 48.9268 22.0503H65.466C65.6675 22.0503 65.8481 21.9228 65.9163 21.7323L66.2007 20.9329C66.3115 20.6204 66.0813 20.2922 65.7504 20.2922H65.7512ZM63.7307 25.967H50.6629C50.3319 25.967 50.1017 26.2959 50.2126 26.6077L50.6869 27.9397C50.7551 28.1302 50.9349 28.2577 51.1372 28.2577H63.2563C63.4586 28.2577 63.6384 28.1302 63.7066 27.9397L64.181 26.6077C64.2918 26.2951 64.0616 25.967 63.7307 25.967ZM62.72 28.8036H51.6727C51.3418 28.8036 51.1116 29.1325 51.2224 29.4443L51.5983 30.5002C51.782 31.0165 52.2695 31.361 52.8151 31.361H61.5761C62.1225 31.361 62.6092 31.0165 62.7929 30.5002L63.1688 29.4443C63.2796 29.1317 63.0494 28.8036 62.7185 28.8036H62.72ZM66.761 17.4556H47.6317C47.3015 17.4556 47.0706 17.7845 47.1814 18.0964L47.3713 18.629C47.4395 18.8195 47.6193 18.947 47.8216 18.947H66.5712C66.7734 18.947 66.9532 18.8195 67.0214 18.629L67.2113 18.0964C67.3222 17.7838 67.092 17.4556 66.761 17.4556ZM68.7815 11.7809H45.6112C45.281 11.7809 45.0501 12.1098 45.1609 12.4216C45.2291 12.6121 45.4089 12.7396 45.6112 12.7396H68.7815C68.9838 12.7396 69.1636 12.6121 69.2318 12.4216C69.3427 12.109 69.1125 11.7809 68.7815 11.7809ZM67.7709 14.6183H46.6211C46.2901 14.6183 46.0599 14.9472 46.1708 15.259L46.2653 15.5257C46.3335 15.7162 46.5133 15.8437 46.7156 15.8437H67.6756C67.8779 15.8437 68.0577 15.7162 68.1259 15.5257L68.2204 15.259C68.3313 14.9464 68.1011 14.6183 67.7701 14.6183H67.7709Z" fill="var(--ground)"></path><path d="M177.468 4.26984C177.113 3.45339 176.634 2.73802 176.03 2.12607C175.426 1.51334 174.72 1.02891 173.913 0.673559C173.105 0.317429 172.249 0.140142 171.343 0.140142C170.384 0.140142 169.488 0.314319 168.654 0.66345C167.82 1.01258 167.091 1.4869 166.468 2.08641C165.844 2.68592 165.355 3.39429 165 4.21075C164.646 5.02798 164.469 5.89731 164.469 6.81951C164.469 7.74171 164.646 8.63437 165 9.45782C165.355 10.2813 165.837 10.999 166.448 11.6117C167.059 12.2244 167.774 12.7089 168.595 13.0642C169.416 13.4196 170.292 13.5976 171.225 13.5976C172.157 13.5976 173.037 13.4235 173.864 13.0743C174.691 12.7252 175.41 12.2446 176.021 11.6319C176.631 11.0192 177.113 10.3046 177.468 9.48815C177.823 8.67169 178 7.79537 178 6.85994C178 5.92452 177.823 5.08863 177.468 4.2714L177.468 4.26984ZM175.961 8.88397C175.692 9.52314 175.328 10.0791 174.867 10.5542C174.408 11.0285 173.863 11.4041 173.233 11.6801C172.603 11.9569 171.933 12.0954 171.224 12.0954C170.515 12.0954 169.851 11.9569 169.234 11.6801C168.617 11.4033 168.075 11.0277 167.609 10.5542C167.143 10.0799 166.775 9.52625 166.506 8.89408C166.237 8.26191 166.103 7.58309 166.103 6.85839C166.103 6.13369 166.237 5.47508 166.506 4.84292C166.775 4.20997 167.14 3.65711 167.6 3.18279C168.059 2.70847 168.594 2.3329 169.205 2.05609C169.816 1.77927 170.462 1.64086 171.145 1.64086C171.867 1.64086 172.547 1.77616 173.183 2.04598C173.82 2.3158 174.374 2.68515 174.847 3.15247C175.32 3.62057 175.691 4.17031 175.96 4.80248C176.229 5.43465 176.364 6.10647 176.364 6.81796C176.364 7.52944 176.229 8.24403 175.96 8.88242L175.961 8.88397Z" fill="currentColor"></path><path d="M173.4 6.70112C173.339 6.66146 173.399 6.63347 173.399 6.63347C174.013 6.45774 174.336 5.9702 174.336 5.17785C174.336 4.58456 174.204 4.17011 173.942 3.93295C173.68 3.69579 173.214 3.5776 172.544 3.5776H168.337C168.224 3.5776 168.133 3.66935 168.133 3.78288V9.95216C168.133 10.0657 168.224 10.1574 168.337 10.1574H170.705C170.818 10.1574 170.91 10.0657 170.91 9.95216V7.59611C170.912 7.55256 170.931 7.47014 171.048 7.47014C171.245 7.47014 171.376 7.51601 171.441 7.60855C171.507 7.70108 171.54 7.87836 171.54 8.14196V9.95216C171.54 10.0657 171.631 10.1574 171.744 10.1574H174.112C174.225 10.1574 174.317 10.0657 174.317 9.95216V8.20106C174.317 7.7143 174.248 7.36828 174.11 7.16377C173.985 6.97949 173.745 6.82631 173.4 6.70034V6.70112ZM171.432 5.90099C171.361 5.94998 171.325 5.97797 171.167 5.98575C171.166 5.98575 171.165 5.9873 171.162 5.9873H171.115C171.096 5.9873 171.084 5.98886 171.062 5.98886V5.9873H171.003C170.951 5.9873 170.909 5.94454 170.909 5.89244V5.19262C170.909 5.14052 170.951 5.09853 171.003 5.09853C171.003 5.09853 171.171 5.1032 171.176 5.10398C171.34 5.11175 171.377 5.13586 171.442 5.1794C171.52 5.23228 171.56 5.35747 171.56 5.55497C171.56 5.72604 171.517 5.8419 171.432 5.90099Z" fill="currentColor"></path><path d="M13.7692 56.7848C13.7692 57.7825 13.4701 58.567 12.8733 59.1409C12.2757 59.714 11.3689 60.0001 10.1529 60.0001H0.36969C0.165857 60.0001 0 59.8337 0 59.6292V49.2299C0 49.0254 0.165857 48.859 0.36969 48.859H9.83515C11.0086 48.859 11.8526 49.1351 12.3649 49.6864C12.8779 50.2384 13.1345 50.9593 13.1345 51.8511C13.1345 52.2866 13.0601 52.6948 12.912 53.0766C12.8144 53.3293 12.6857 53.561 12.5276 53.7725C12.4075 53.9327 12.4338 54.1675 12.5989 54.2818C13.3786 54.8199 13.7684 55.655 13.7684 56.7856L13.7692 56.7848ZM1.90348 53.1994C1.90348 53.4039 2.06934 53.5704 2.27317 53.5704H9.37479C9.81888 53.5704 10.1622 53.5439 10.4064 53.491C10.6497 53.4382 10.8481 53.2998 11.0008 53.0766C11.1535 52.8534 11.231 52.4989 11.231 52.0098C11.231 51.5207 11.1519 51.1661 10.9931 50.9437C10.8342 50.7205 10.6334 50.5829 10.3901 50.53C10.1467 50.4772 9.80338 50.4499 9.35929 50.4499H2.27317C2.06934 50.4499 1.90348 50.6163 1.90348 50.8208V53.1987V53.1994ZM11.0248 58.3291C11.2682 58.2762 11.4689 58.1332 11.6278 57.8991C11.7867 57.6658 11.8657 57.2942 11.8657 56.7848C11.8657 56.2755 11.7867 55.9046 11.6278 55.6714C11.4689 55.4381 11.2682 55.295 11.0248 55.2414C10.7815 55.1885 10.4381 55.162 9.99326 55.162H2.27317C2.06934 55.162 1.90348 55.3284 1.90348 55.5329V58.0383C1.90348 58.2428 2.06934 58.4092 2.27317 58.4092H9.99404C10.4381 58.4092 10.7815 58.3828 11.0256 58.3299L11.0248 58.3291Z" fill="currentColor"></path><path d="M30.4572 55.2257C30.0519 55.7654 29.514 56.1643 28.8444 56.424C28.6312 56.5064 28.5568 56.7739 28.6777 56.9683L30.2022 59.434C30.3549 59.6812 30.1782 60 29.8883 60H28.5375C28.4096 60 28.2902 59.9332 28.2228 59.8243L26.441 56.9294C26.3736 56.8198 26.255 56.7537 26.1263 56.7537H20.4841C20.2803 56.7537 20.1144 56.9201 20.1144 57.1246V59.6299C20.1144 59.8344 19.9486 60.0008 19.7447 60.0008H18.5806C18.3768 60.0008 18.2109 59.8344 18.2109 59.6299V49.2306C18.2109 49.0261 18.3768 48.8597 18.5806 48.8597H26.9355C27.781 48.8597 28.5243 49.016 29.1645 49.3294C29.8039 49.642 30.3014 50.0961 30.6556 50.6901C31.0098 51.2842 31.1873 51.9903 31.1873 52.8067C31.1873 53.7725 30.9439 54.5788 30.4572 55.2257ZM20.1144 54.7911C20.1144 54.9956 20.2803 55.162 20.4841 55.162H26.1426C26.7347 55.162 27.2424 55.1223 27.6655 55.043C28.0887 54.9629 28.4638 54.7514 28.7917 54.4062C29.1195 54.0617 29.283 53.5283 29.283 52.8067C29.283 52.0851 29.1187 51.5525 28.7917 51.2072C28.4638 50.8628 28.0879 50.6505 27.6655 50.5704C27.2424 50.4911 26.7347 50.4507 26.1426 50.4507H20.4841C20.2803 50.4507 20.1144 50.6171 20.1144 50.8216V54.7911Z" fill="currentColor"></path><path d="M37.5324 50.8216V53.2631C37.5324 53.4676 37.6982 53.634 37.9021 53.634H46.9979C47.2017 53.634 47.3675 53.8004 47.3675 54.0049V54.8548C47.3675 55.0593 47.2017 55.2257 46.9979 55.2257H37.9021C37.6982 55.2257 37.5324 55.3921 37.5324 55.5966V58.0382C37.5324 58.2427 37.6982 58.4091 37.9021 58.4091H46.9979C47.2017 58.4091 47.3675 58.5755 47.3675 58.78V59.6299C47.3675 59.8344 47.2017 60.0008 46.9979 60.0008H35.9986C35.7948 60.0008 35.6289 59.8344 35.6289 59.6299V49.2306C35.6289 49.0261 35.7948 48.8597 35.9986 48.8597H46.9979C47.2017 48.8597 47.3675 49.0261 47.3675 49.2306V50.0805C47.3675 50.285 47.2017 50.4514 46.9979 50.4514H37.9021C37.6982 50.4514 37.5324 50.6178 37.5324 50.8223V50.8216Z" fill="currentColor"></path><path d="M63.2415 57.358H55.6981C55.5679 57.358 55.447 57.4264 55.3804 57.5391L54.0249 59.819C53.9582 59.931 53.8373 60.0002 53.7071 60.0002H52.4562C52.1694 60.0002 51.9919 59.6876 52.1384 59.4403L58.2837 49.041C58.3503 48.9283 58.4712 48.8591 58.6014 48.8591H60.3375C60.4677 48.8591 60.5886 48.9283 60.6552 49.041L66.8005 59.4403C66.9462 59.6876 66.7687 60.0002 66.4827 60.0002H65.2318C65.1016 60.0002 64.9807 59.9317 64.914 59.819L63.5585 57.5391C63.4919 57.4272 63.371 57.358 63.2408 57.358H63.2415ZM62.1852 55.2072L59.788 51.149C59.6446 50.9064 59.2951 50.9064 59.1517 51.149L56.7545 55.2072C56.6088 55.4545 56.7863 55.7671 57.0723 55.7671H61.8666C62.1534 55.7671 62.3309 55.4545 62.1844 55.2072H62.1852Z" fill="currentColor"></path><path d="M81.0388 50.4508H75.9089C75.7051 50.4508 75.5392 50.6172 75.5392 50.8217V59.6293C75.5392 59.8338 75.3733 60.0002 75.1695 60.0002H74.0046C73.8008 60.0002 73.6349 59.8338 73.6349 59.6293V50.8217C73.6349 50.6172 73.4691 50.4508 73.2653 50.4508H68.1353C67.9315 50.4508 67.7656 50.2844 67.7656 50.0799V49.23C67.7656 49.0255 67.9315 48.8591 68.1353 48.8591H81.0388C81.2427 48.8591 81.4085 49.0255 81.4085 49.23V50.0799C81.4085 50.2844 81.2427 50.4508 81.0388 50.4508Z" fill="currentColor"></path><path d="M100.604 49.23V59.6293C100.604 59.8338 100.438 60.0002 100.235 60.0002H99.0705C98.8667 60.0002 98.7008 59.8338 98.7008 59.6293V55.5968C98.7008 55.3923 98.535 55.2259 98.3311 55.2259H88.1247C87.9209 55.2259 87.755 55.3923 87.755 55.5968V59.6293C87.755 59.8338 87.5892 60.0002 87.3854 60.0002H86.2213C86.0174 60.0002 85.8516 59.8338 85.8516 59.6293V49.23C85.8516 49.0255 86.0174 48.8591 86.2213 48.8591H87.3854C87.5892 48.8591 87.755 49.0255 87.755 49.23V53.2625C87.755 53.467 87.9209 53.6334 88.1247 53.6334H98.3311C98.535 53.6334 98.7008 53.467 98.7008 53.2625V49.23C98.7008 49.0255 98.8667 48.8591 99.0705 48.8591H100.235C100.438 48.8591 100.604 49.0255 100.604 49.23Z" fill="currentColor"></path></g><defs><clipPath id="somaLogoClip"><rect width="178" height="60" fill="white"></rect></clipPath></defs></svg>
+    </a>
+    <div class="badge">London · 2026</div>
+  </header>
+
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-intro">
+      <p class="eyebrow">Sessions coming to London</p>
+      <h1>London, your new path to more energy, better health and a <span>clearer mind</span>.</h1>
+      <p class="standfirst">
+        SOMA breathwork sessions are coming to London. Our science-backed approach combines
+        pranayama breathwork with meditation, music and dance — for sessions that leave you
+        refreshed, energised and ready for anything.
+      </p>
+    </div>
+
+    <div class="col">
+      <div class="signup">
+        <h2>2026 sessions are filling up fast.</h2>
+        <p class="lede">Sign up to be notified when spaces become available.</p>
+        <form class="waitlist" novalidate>
+          <div class="field">
+            <label for="email-top">Email</label>
+            <input type="email" id="email-top" name="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <button type="submit" class="cta">Let me know when bookings open</button>
+        </form>
+        <p class="status" role="status" aria-live="polite"></p>
+        <p class="fineprint">
+          We always treat your data with the utmost care. You can find our
+          <a href="#privacy">full privacy policy here</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page">
+
+  <section>
+    <div class="col">
+      <p class="sec-label">The practice</p>
+      <h2 class="sec">What is SOMA Breath?</h2>
+      <p>
+        SOMA Breath<sup>®</sup> is a worldwide community using a complete, scientifically-backed
+        system of pranayama breathing techniques — sequenced to derive maximum mental and physical
+        benefit from the method.
+      </p>
+      <p>
+        Hundreds of thousands of people attend our group sessions around the world. Sessions are
+        hosted in many different formats, but the same core SOMA Breath techniques sit at the heart
+        of every one.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="sec-label">The awakening ceremony, step by step</p>
+      <h2 class="sec">How does SOMA Breath work?</h2>
+      <div class="carousel" role="group" aria-roledescription="carousel" aria-label="The SOMA Breath Awakening Ceremony, step by step">
+        <div class="track" tabindex="0" aria-label="Ceremony steps — scroll or use the arrow keys">
+          <article class="step" role="group" aria-roledescription="slide" aria-label="Step 1 of 8">
+            <span class="step-num" aria-hidden="true">01</span>
+            <p>The SOMA Breath Awakening Ceremony is a higher yoga ritual designed to clear negative imprints and help you break free from the past — so you can be more present, in the flow, liberated, and the sole creator of your reality.</p>
+          </article>
+          <article class="step" role="group" aria-roledescription="slide" aria-label="Step 2 of 8">
+            <span class="step-num" aria-hidden="true">02</span>
+            <p>Rhythmic breathing hyper-oxygenates the body, bringing in more oxygen and blowing out more carbon dioxide than normal. This alters the pH of your bloodstream and creates a strong electromagnetic field and current to flow through your body.</p>
+          </article>
+          <article class="step" role="group" aria-roledescription="slide" aria-label="Step 3 of 8">
+            <span class="step-num" aria-hidden="true">03</span>
+            <p>The diaphragmatic breathing technique we teach stimulates the largest lymphatic organ in your body, creating a powerful cleansing effect and strengthening your immune system.</p>
+          </article>
+          <article class="step" role="group" aria-roledescription="slide" aria-label="Step 4 of 8">
+            <span class="step-num" aria-hidden="true">04</span>
+            <p>Extended exhalation and vocal toning tap into the power of the vagus nerve — switching off stress and connecting you with your subconscious mind.</p>
+          </article>
+          <article class="step" role="group" aria-roledescription="slide" aria-label="Step 5 of 8">
+            <span class="step-num" aria-hidden="true">05</span>
+            <p>The breath retention components are totally safe. They give you a few minutes to slow right down and pause your life to be fully in the present moment, entering a profound meditative state and connecting to yourself on a personal level.</p>
+          </article>
+          <article class="step" role="group" aria-roledescription="slide" aria-label="Step 6 of 8">
+            <span class="step-num" aria-hidden="true">06</span>
+            <p>Using affirmations, guided mental imagery and self-hypnosis, you can reprogram your subconscious operating system and influence your autonomic nervous system.</p>
+          </article>
+          <article class="step" role="group" aria-roledescription="slide" aria-label="Step 7 of 8">
+            <span class="step-num" aria-hidden="true">07</span>
+            <p>Activating yogic energetic locks throughout the ceremony creates sexual energy — the source of creativity and imagination. You experience states of ecstatic bliss and many different states of consciousness.</p>
+          </article>
+          <article class="step" role="group" aria-roledescription="slide" aria-label="Step 8 of 8">
+            <span class="step-num" aria-hidden="true">08</span>
+            <p>Powerful emotional releases can occur, and negative imprints from the past can be cleared. “Divine downloads” — moments of deep insight and inspiration — make the SOMA Breath experience truly unforgettable.</p>
+          </article>
+        </div>
+        <div class="carousel-controls">
+          <div class="arrows">
+            <button type="button" class="nav" data-dir="-1" aria-label="Previous step">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4 7 12l8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button type="button" class="nav" data-dir="1" aria-label="Next step">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+          <div class="dots">
+            <button type="button" class="dot" data-index="0" aria-label="Go to step 1"></button>
+            <button type="button" class="dot" data-index="1" aria-label="Go to step 2"></button>
+            <button type="button" class="dot" data-index="2" aria-label="Go to step 3"></button>
+            <button type="button" class="dot" data-index="3" aria-label="Go to step 4"></button>
+            <button type="button" class="dot" data-index="4" aria-label="Go to step 5"></button>
+            <button type="button" class="dot" data-index="5" aria-label="Go to step 6"></button>
+            <button type="button" class="dot" data-index="6" aria-label="Go to step 7"></button>
+            <button type="button" class="dot" data-index="7" aria-label="Go to step 8"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col qa">
+      <div>
+        <h3>What do the sessions actually entail?</h3>
+        <p>
+          Sessions start with several rounds of deep somatic breathing exercises rooted in yoga,
+          before moving into meditative dance. There are generally around 30 people in the room.
+          We can guarantee you will leave feeling better than when you arrived.
+        </p>
+      </div>
+      <div>
+        <h3>Who guides the sessions?</h3>
+        <p>
+          Every SOMA Breath session is hosted by a fully certified, trauma-informed SOMA Breath<sup>®</sup>
+          Transformational Coach — equipped to guide powerful sessions and respond safely if and when
+          deep emotional reactions arise.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <p class="sec-label">What you can expect</p>
+      <h2 class="sec">The benefits of SOMA Breath sessions</h2>
+      <div class="benefits">
+        <div>
+          <p class="sec-label">In the body</p>
+          <ul>
+            <li>More efficient at using oxygen</li>
+            <li>Better tolerance for carbon dioxide</li>
+            <li>Increased mind–body connection</li>
+            <li>Increased cardiovascular health: more stamina, endurance, better fitness</li>
+            <li>Reduced inflammation</li>
+            <li>A balanced nervous system</li>
+            <li>Deep states of meditation</li>
+          </ul>
+        </div>
+        <div>
+          <p class="sec-label">In the mind</p>
+          <ul>
+            <li>Mind reprogramming and self-hypnosis: install new beliefs and become your best self effortlessly</li>
+            <li>Mental and physical resilience</li>
+            <li>A calmer, clearer mind — better judgement and decision making</li>
+            <li>Manage stress</li>
+            <li>Awaken to your soul’s purpose and authentic self</li>
+            <li>Increased confidence and self-esteem</li>
+            <li>Emotional processing and release</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col">
+      <div class="signup">
+        <h2>Be first to hear when London opens.</h2>
+        <p class="lede">2026 sessions are filling up fast. We will email you the moment spaces become available.</p>
+        <form class="waitlist" novalidate>
+          <div class="field">
+            <label for="email-bottom">Email</label>
+            <input type="email" id="email-bottom" name="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <button type="submit" class="cta">Let me know when bookings open</button>
+        </form>
+        <p class="status" role="status" aria-live="polite"></p>
+        <p class="fineprint">
+          We always treat your data with the utmost care. You can find our
+          <a href="#privacy">full privacy policy here</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="col research">
+      <p class="sec-label">Under study at Cambridge University</p>
+      <blockquote>
+        “We chose to collaborate with SOMA Breath<sup>®</sup> due to its very clear and systematic
+        approach, and the effectiveness of the method as per clear report from those participating
+        and the researchers coordinating the study.”
+      </blockquote>
+      <p class="attrib">Cambridge University research team</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>SOMA Breath<sup>®</sup> London · Sessions from 2026</div>
+    <div><a href="#privacy">Privacy policy</a></div>
+  </footer>
+
+</div>
+
+<script>
+  (function () {
+    var forms = document.querySelectorAll("form.waitlist");
+    var dbPromise = null;
+
+    function getDb() {
+      if (!dbPromise) {
+        dbPromise = (window.claude && window.claude.use)
+          ? window.claude.use("db").catch(function () { return null; })
+          : Promise.resolve(null);
+      }
+      return dbPromise;
+    }
+
+    function valid(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    }
+
+    function docId(email) {
+      return email.toLowerCase().replace(/[^a-z0-9_\-.~:@+]/g, "-").slice(0, 180);
+    }
+
+    forms.forEach(function (form) {
+      var input = form.querySelector('input[type="email"]');
+      var button = form.querySelector("button.cta");
+      var status = form.parentElement.querySelector(".status");
+
+      function say(text, kind) {
+        status.textContent = text;
+        status.className = "status" + (kind ? " " + kind : "");
+      }
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var email = input.value.trim();
+
+        if (!valid(email)) {
+          say("That email doesn’t look right — check for a typo and try again.", "err");
+          input.focus();
+          return;
+        }
+
+        button.disabled = true;
+        say("Adding you to the list…");
+
+        getDb().then(function (db) {
+          if (!db) {
+            button.disabled = false;
+            say("We can’t take sign-ups on this page right now. Please try again shortly.", "err");
+            return;
+          }
+          return db.doc("waitlist/" + docId(email)).set({
+            email: email,
+            city: "London",
+            signedUpAt: new Date().toISOString()
+          }).then(function () {
+            form.hidden = true;
+            say("You’re on the list. We’ll email " + email + " as soon as London bookings open.", "ok");
+          });
+        }).catch(function () {
+          button.disabled = false;
+          say("Something went wrong saving your email. Please try again.", "err");
+        });
+      });
+    });
+  })();
+
+  (function () {
+    var carousel = document.querySelector(".carousel");
+    if (!carousel) return;
+
+    var track = carousel.querySelector(".track");
+    var steps = Array.prototype.slice.call(carousel.querySelectorAll(".step"));
+    var dots = Array.prototype.slice.call(carousel.querySelectorAll(".dot"));
+    var navs = Array.prototype.slice.call(carousel.querySelectorAll(".nav"));
+    var index = 0;
+
+    function offsetOf(i) {
+      return steps[i].offsetLeft - steps[0].offsetLeft;
+    }
+
+    function nearest() {
+      var best = 0;
+      var bestGap = Infinity;
+      for (var i = 0; i < steps.length; i++) {
+        var gap = Math.abs(offsetOf(i) - track.scrollLeft);
+        if (gap < bestGap) { bestGap = gap; best = i; }
+      }
+      return best;
+    }
+
+    function render() {
+      dots.forEach(function (dot, i) {
+        if (i === index) { dot.setAttribute("aria-current", "true"); }
+        else { dot.removeAttribute("aria-current"); }
+      });
+      navs.forEach(function (nav) {
+        var dir = Number(nav.getAttribute("data-dir"));
+        nav.disabled = dir < 0 ? index === 0 : index === steps.length - 1;
+      });
+    }
+
+    function goTo(i) {
+      index = Math.max(0, Math.min(steps.length - 1, i));
+      track.scrollTo({ left: offsetOf(index) });
+      render();
+    }
+
+    navs.forEach(function (nav) {
+      nav.addEventListener("click", function () {
+        goTo(index + Number(nav.getAttribute("data-dir")));
+      });
+    });
+
+    dots.forEach(function (dot) {
+      dot.addEventListener("click", function () {
+        goTo(Number(dot.getAttribute("data-index")));
+      });
+    });
+
+    var ticking = false;
+    track.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        var next = nearest();
+        if (next !== index) { index = next; render(); }
+      });
+    });
+
+    window.addEventListener("resize", function () { goTo(index); });
+
+    render();
+  })();
+</script>
