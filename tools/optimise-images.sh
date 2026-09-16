@@ -34,10 +34,12 @@ grade "$SRC/fabric-rave.png" "$OUT/hero-1000.webp" 1000 85 90 "" 6
 # Portrait crop for phones, centred on the DJ booth.
 grade "$SRC/fabric-rave.png" "$OUT/hero-portrait.webp" 720 85 90 "768x1024+436+0" 6
 
-# Section photographs: shown bare, so a lighter grade.
-for name in community session; do
-  grade "$SRC/$name.jpg" "$OUT/$name-1200.webp" 1200 82 45
-  grade "$SRC/$name.jpg" "$OUT/$name-700.webp" 700 82 45
-done
+# The generated breathwork image at fabric: same light grade as the hero.
+grade "$SRC/fabric-breathwork.png" "$OUT/breathwork-1200.webp" 1200 88 90 "" 6
+grade "$SRC/fabric-breathwork.png" "$OUT/breathwork-700.webp" 700 88 90 "" 6
+
+# SOMA's own community photograph: shown bare, so a lighter version of the dark grade.
+grade "$SRC/community.jpg" "$OUT/community-1200.webp" 1200 82 45
+grade "$SRC/community.jpg" "$OUT/community-700.webp" 700 82 45
 
 ls -l "$OUT"

@@ -152,5 +152,8 @@ only a light grade, because its "House of Jung x SOMA Breath" screen should stay
 There is a portrait crop centred on the DJ booth for phones: about 29KB on a phone and 67KB
 on desktop.
 
-`community.jpg` and `session.jpg` are client-supplied SOMA Breath photographs, graded dark
-and desaturated. Both run without captions; the surrounding copy carries the context.
+`fabric-breathwork.png` — a generated image of the breathwork half of the night at fabric,
+1536x1024, same light grade. It illustrates "What happens at a breath rave?".
+
+`community.jpg` is a client-supplied SOMA Breath photograph, graded dark and desaturated,
+under "What is SOMA Breath?". It runs without a caption.
