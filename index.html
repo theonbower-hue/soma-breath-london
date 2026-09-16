@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="/img/hero-portrait.webp" media="(max-width: 700px)" fetchpriority="high">
 <link rel="preload" as="image" href="/img/hero-1000.webp" media="(min-width: 701px) and (max-width: 1099px)" fetchpriority="high">
-<link rel="preload" as="image" href="/img/hero-1600.webp" media="(min-width: 1100px)" fetchpriority="high">
+<link rel="preload" as="image" href="/img/hero-1536.webp" media="(min-width: 1100px)" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300..700&display=swap">
 <meta name="description" content="House of Jung and SOMA Breath bring the breath rave to fabric London in January 2027: pranayama breathwork, electronic music and natural euphoria, fully sober. Sign up for priority access.">
 <meta name="theme-color" content="#08070D">
@@ -87,26 +87,48 @@
 
   /* ---------- hero ---------- */
 
+  /* The image is a band across the top of the hero rather than a backdrop behind the
+     text: it carries its own "House of Jung x SOMA Breath" screen, so it needs to be
+     seen. It fades to the ground colour and the headline starts where it fades. */
   .hero {
-    --veil: linear-gradient(to bottom, rgba(8, 7, 13, .72) 0%, rgba(8, 7, 13, .38) 30%, rgba(8, 7, 13, .7) 72%, var(--ground) 100%);
-    --shade: linear-gradient(to right, rgba(8, 7, 13, .72) 0%, rgba(8, 7, 13, .45) 60%, rgba(8, 7, 13, .3) 100%);
+    position: relative;
+    isolation: isolate;
+    background: var(--ground);
+  }
 
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -1;
+    aspect-ratio: 3 / 4;
+    max-height: 115vw;
     background-color: var(--ground);
-    background-image: var(--veil), var(--shade), url("/img/hero-portrait.webp");
+    background-image:
+      linear-gradient(to bottom, rgba(8, 7, 13, .6) 0%, rgba(8, 7, 13, 0) 20%, rgba(8, 7, 13, 0) 45%, rgba(8, 7, 13, .8) 74%, var(--ground) 96%),
+      url("/img/hero-portrait.webp");
     background-size: cover;
-    background-position: center 30%;
+    background-position: center top;
     background-repeat: no-repeat;
   }
 
   @media (min-width: 701px) {
-    .hero {
-      background-image: var(--veil), var(--shade), url("/img/hero-1000.webp");
-      background-position: center 72%;
+    .hero::before {
+      aspect-ratio: 3 / 2;
+      max-height: 92vh;
+      background-image:
+        linear-gradient(to bottom, rgba(8, 7, 13, .55) 0%, rgba(8, 7, 13, 0) 18%, rgba(8, 7, 13, 0) 50%, rgba(8, 7, 13, .82) 80%, var(--ground) 98%),
+        url("/img/hero-1000.webp");
+      background-position: center 35%;
     }
   }
 
   @media (min-width: 1100px) {
-    .hero { background-image: var(--veil), var(--shade), url("/img/hero-1600.webp"); }
+    .hero::before {
+      background-image:
+        linear-gradient(to bottom, rgba(8, 7, 13, .55) 0%, rgba(8, 7, 13, 0) 18%, rgba(8, 7, 13, 0) 50%, rgba(8, 7, 13, .82) 80%, var(--ground) 98%),
+        url("/img/hero-1536.webp");
+    }
   }
 
   .hero-inner {
@@ -158,7 +180,8 @@
 
   .hero-intro {
     max-width: var(--col);
-    margin: 6.5rem auto 0;
+    /* Start the headline in the lower, faded part of the image. */
+    margin: clamp(16rem, 36vw, 31rem) auto 0;
   }
 
   .eyebrow, .sec-label {
@@ -212,7 +235,7 @@
   @media (max-width: 700px) {
     .hero-inner { padding-bottom: 3rem; }
     .logo-svg { height: 28px; }
-    .hero-intro { margin-top: 4.25rem; }
+    .hero-intro { margin-top: 62vw; }
     .standfirst { font-size: 1.02rem; }
     .hero .signup { margin-top: 2.25rem; }
   }

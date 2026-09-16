@@ -145,13 +145,12 @@ no change to the script. This is why the artifact build is ~520KB against the ho
 
 Masters live in `assets/photos/`; the page uses the WebP copies in `img/`. Run
 `bash tools/optimise-images.sh` (needs ImageMagick and `cwebp`) after replacing a master.
-The script grades every image dark, cool and mostly desaturated, so the page reads
-underground rather than wellness. The hero gets the heaviest grade because it sits under a
-dark veil, plus a portrait crop for phones. The hero is preloaded per breakpoint: about 31KB
-on a phone and 63KB on desktop, against the previous 297KB JPEG.
 
-`hero.jpg` — Unsplash, by David Whipple (`PktK6GuC3U4`). Unsplash licence: free for
-commercial use, attribution not required.
+`fabric-rave.png` — the hero. A generated image (not a photograph) of a House of Jung x
+SOMA Breath rave at fabric, 1536x1024. It is shown as a band across the top of the hero with
+only a light grade, because its "House of Jung x SOMA Breath" screen should stay readable.
+There is a portrait crop centred on the DJ booth for phones: about 29KB on a phone and 67KB
+on desktop.
 
-`community.jpg` and `session.jpg` are client-supplied SOMA Breath photographs. Both run
-without captions; the surrounding copy carries the context.
+`community.jpg` and `session.jpg` are client-supplied SOMA Breath photographs, graded dark
+and desaturated. Both run without captions; the surrounding copy carries the context.

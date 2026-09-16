@@ -14,23 +14,25 @@ SRC=assets/photos
 OUT=img
 mkdir -p "$OUT"
 
-# grade <in> <out> <width> <brightness%> <saturation%> [crop]
+# grade <in> <out> <width> <brightness%> <saturation%> [crop] [tint%]
 grade() {
-  local in=$1 out=$2 width=$3 bright=$4 sat=$5 crop=${6:-}
+  local in=$1 out=$2 width=$3 bright=$4 sat=$5 crop=${6:-} tint=${7:-14}
   magick "$in" ${crop:+-crop "$crop" +repage} \
     -resize "${width}x" \
     -modulate "$bright,$sat,100" \
-    -fill '#1a1238' -colorize 14% \
+    -fill '#1a1238' -colorize "$tint%" \
     -strip "$OUT/tmp.png"
   cwebp -quiet -q 58 -m 6 -sharp_yuv "$OUT/tmp.png" -o "$out"
   rm "$OUT/tmp.png"
 }
 
-# Hero: sits under a dark veil, so it can be graded hard.
-grade "$SRC/hero.jpg" "$OUT/hero-1600.webp" 1600 62 22
-grade "$SRC/hero.jpg" "$OUT/hero-1000.webp" 1000 62 22
-# Portrait crop for phones, centred on the facilitator.
-grade "$SRC/hero.jpg" "$OUT/hero-portrait.webp" 720 62 22 "1012x1350+520+0"
+# Hero: the generated fabric rave image. Already dark and moody, so only a light
+# grade that keeps its green and amber; the page's veil does the rest.
+# The master is 1536x1024, so the wide version is not upscaled.
+grade "$SRC/fabric-rave.png" "$OUT/hero-1536.webp" 1536 85 90 "" 6
+grade "$SRC/fabric-rave.png" "$OUT/hero-1000.webp" 1000 85 90 "" 6
+# Portrait crop for phones, centred on the DJ booth.
+grade "$SRC/fabric-rave.png" "$OUT/hero-portrait.webp" 720 85 90 "768x1024+436+0" 6
 
 # Section photographs: shown bare, so a lighter grade.
 for name in community session; do
