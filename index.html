@@ -629,6 +629,21 @@
 
   /* ---------- closing signup ---------- */
 
+  .poster { max-width: 26rem; margin: 0 auto 3rem; }
+
+  .poster img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: 0 30px 80px -40px rgba(154, 136, 255, .45);
+  }
+
+  @media (max-width: 560px) {
+    .poster { margin-bottom: 2.25rem; }
+  }
+
   .closing {
     background: radial-gradient(ellipse 60% 70% at 50% 55%, rgba(108, 86, 230, .16), transparent 70%);
   }
@@ -863,6 +878,13 @@
   </section>
 
   <section class="closing">
+    <figure class="poster">
+      <img src="/img/poster-840.webp"
+           srcset="/img/poster-560.webp 560w, /img/poster-840.webp 840w"
+           sizes="(max-width: 480px) calc(100vw - 2.5rem), 26rem"
+           width="840" height="1050" loading="lazy" decoding="async"
+           alt="Breath Rave poster: SOMA Breath and House of Jung present Breath Rave. Science-backed pranayama breathwork, a fully immersive wellness experience and cutting-edge electronic music. fabric, London. 2027 dates to be announced; sign up for more info.">
+    </figure>
     <div class="signup">
       <div class="signup-body">
         <h2>Be first on the floor.</h2>
