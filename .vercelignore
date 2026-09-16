@@ -1,5 +1,5 @@
-# Only index.html (plus vercel.json config) is deployed. Everything else is
-# working material: notes, source copy, and the generated artifact variant.
+# Only index.html, img/ and api/ (plus vercel.json config) are deployed.
+# Everything else is working material: notes, source copy, and the generated artifact variant.
 # build/artifact.html especially must not ship — it is a near-duplicate of the
 # homepage and would be indexable duplicate content.
 README.md
@@ -8,3 +8,4 @@ content/
 docs/
 tools/
 build/
+# assets/photos/ holds the full-size master photographs; the web copies live in img/

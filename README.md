@@ -1,7 +1,8 @@
 # SOMA Breath London — waitlist landing page
 
-A single-file landing page for SOMA Breath's 2026 London sessions, with a working email
-waitlist. Built 2026-09-08 from client copy in a Google Doc.
+A single-page waitlist site for SOMA Breath in London, produced by House of Jung. Sign-ups
+go to a Brevo list through a server-side route. Built 2026-09-08 from client copy in a Google
+Doc; Brevo and the dark redesign added 2026-09-16.
 
 **Live:** <https://claude.ai/code/artifact/5ec9b2b5-0b02-424e-bea6-d5c7286a55ac>
 
@@ -10,45 +11,67 @@ waitlist. Built 2026-09-08 from client copy in a Google Doc.
 | Path | What it is |
 | --- | --- |
 | `index.html` | The whole page — HTML, CSS, JS and the logo SVG, no build step |
+| `api/subscribe.js` | Vercel serverless function: validates a sign-up and adds it to Brevo |
+| `img/` | Web images: graded, resized WebP generated from the masters |
+| `assets/photos/` | Full-size master photographs (not deployed) |
+| `tools/optimise-images.sh` | Regenerates `img/` from `assets/photos/` |
 | `vercel.json` | Vercel config: clean URLs, security headers |
 | `tools/build-artifact.py` | Generates the SVG-free Claude Artifact variant |
 | `build/artifact.html` | Generated — do not edit by hand |
 | `.vercelignore` | Keeps the working notes out of the deployed bundle |
-| `hero.jpg` | Hero photograph, 1800×1350, ~297KB |
-| `community.jpg` | Outdoor group session — closes "What is SOMA Breath?" |
-| `session.jpg` | Indoor session — opens the Q&A block |
 | `assets/soma-logo.svg` | Official logo as downloaded, before inlining |
 | `content/source-copy.md` | The original client copy from the Google Doc |
 | `docs/brand.md` | Brand tokens read off somabreath.com, and where each came from |
 
-`index.html` is self-contained: open it in a browser and it renders. The only network
-request is the Google Fonts stylesheet.
+`index.html` has no build step. Beyond its own images, the only third-party request is the
+Google Fonts stylesheet.
 
 ## Page structure
 
-Masthead → full-bleed hero with sign-up → What is SOMA Breath → the 8-step Awakening
+Full-bleed hero (masthead, headline, sign-up) → What is SOMA Breath → the 8-step Awakening
 Ceremony as a carousel → two Q&As → benefits split "In the body" / "In the mind" → second
 sign-up → Cambridge quote → footer.
 
 ## The waitlist
 
-**The forms do not capture addresses.** On 2026-09-08 the data store was removed so the
-artifact could be shared publicly — an artifact that declares a store is organisation-internal
-and cannot be made public. The store was empty at the time, so no sign-ups were lost.
+Both sign-up cards post JSON to `/api/subscribe` (`api/subscribe.js`), which calls
+`POST https://api.brevo.com/v3/contacts` with the key from the environment. The browser never
+sees the Brevo key.
 
-Both forms now validate the address and then say plainly that sign-ups are not being
-collected yet, rather than appearing to succeed.
+- **Fields:** email and UK postcode (full, or just the outward half such as `E8`). Both are
+  validated in the page and again on the server with the same patterns. Postcodes are
+  stored upper-case with a space (`e83pb` → `E8 3PB`).
+- **Attribution:** `utm_source`, `utm_medium` and `utm_campaign` are read from the landing URL
+  and kept in `sessionStorage` for the tab, then sent as `UTM_SOURCE`, `UTM_MEDIUM` and
+  `UTM_CAMPAIGN`. Empty UTMs are left out, so a later untagged sign-up does not wipe the
+  original source.
+- **Existing contacts:** `updateEnabled: true`, and a `duplicate_parameter` response are both
+  treated as success.
+- **Spam:** a hidden `website` honeypot field. If it is filled in, the route returns success
+  without calling Brevo.
+- **Success:** the button shows a spinner, then both cards swap to an inline thank-you. If a
+  Meta Pixel (`window.fbq`) is on the page, `fbq("track", "Lead")` fires once.
+- **Errors:** the route returns `{ ok: false, error }` with `invalid_email`,
+  `invalid_postcode`, `server_config`, `upstream_unreachable` or `upstream_error`. Details go to
+  the Vercel function log; the page shows a plain-English message.
 
-To capture real addresses, host `index.html` yourself and drop in an ESP embed (Mailchimp,
-ConvertKit). This cannot be done inside an artifact: the sandbox blocks all outbound network
-requests, so a third-party form endpoint will never fire. The earlier working version used
-the artifact document store at `waitlist/<sanitised email>`, which is available in this
-repo's git history.
+### Environment variables (Vercel → Settings → Environment Variables)
+
+| Name | Value |
+| --- | --- |
+| `BREVO_API_KEY` | A Brevo API v3 key (Brevo → SMTP & API → API keys) |
+| `BREVO_LIST_ID` | The numeric ID of the waitlist list (Brevo → Contacts → Lists) |
+
+Redeploy after adding or changing them. In Brevo, create `POSTCODE`, `UTM_SOURCE`,
+`UTM_MEDIUM` and `UTM_CAMPAIGN` as **Text** contact attributes first, or the values have
+nowhere to go.
 
 ## Known constraints and open items
 
-- **Email capture is not wired up** — see "The waitlist" above. This is the main thing
-  standing between this page and a real launch.
+- **No Meta Pixel is installed.** The Lead event is wired up but only fires once a pixel
+  snippet is added to `<head>`.
+- **The page deliberately names no dates, venue or session logistics.** Keep it that way
+  until those are confirmed.
 - **Privacy policy links point at `#privacy`** in three places — needs the real URL.
 - **Cambridge and accreditation logos are missing.** The source doc called for them; the
   accreditation section was empty in the doc, so it was left out rather than invented. The
@@ -112,15 +135,21 @@ Carousel arrows are CSS chevrons rather than SVG icons for the same reason.
 The script also inlines every local image as a base64 data URI, because artifacts cannot
 fetch images over the network — `/hero.jpg` and friends would silently render nothing. It
 scans for local image references and hard-fails if any survive, so adding a new photo needs
-no change to the script. This is why the artifact build is ~950KB against the hosted page's
-~43KB.
+no change to the script. This is why the artifact build is ~520KB against the hosted page's
+~45KB. The waitlist cannot work in the artifact: its sandbox blocks the call to
+`/api/subscribe`, so the forms there show the "couldn't reach the server" message.
 
 ## Photographs
 
-`hero.jpg` — Unsplash, by David Whipple (`PktK6GuC3U4`). Unsplash licence: free for
-commercial use, attribution not required. Downsized from 4032×3024 to 1800×1350 at quality
-50; it sits under a 52–90% dark overlay, so compression artefacts are not visible.
+Masters live in `assets/photos/`; the page uses the WebP copies in `img/`. Run
+`bash tools/optimise-images.sh` (needs ImageMagick and `cwebp`) after replacing a master.
+The script grades every image dark, cool and mostly desaturated, so the page reads
+underground rather than wellness. The hero gets the heaviest grade because it sits under a
+dark veil, plus a portrait crop for phones. The hero is preloaded per breakpoint: about 31KB
+on a phone and 63KB on desktop, against the previous 297KB JPEG.
 
-`community.jpg` and `session.jpg` are client-supplied SOMA Breath photographs, downsized to
-1200px wide at quality 62. Both run without captions; the surrounding
-copy carries the context.
+`hero.jpg` — Unsplash, by David Whipple (`PktK6GuC3U4`). Unsplash licence: free for
+commercial use, attribution not required.
+
+`community.jpg` and `session.jpg` are client-supplied SOMA Breath photographs. Both run
+without captions; the surrounding copy carries the context.
