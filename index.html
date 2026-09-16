@@ -4,12 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Breath Rave at fabric London · House of Jung × SOMA Breath</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-black-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-var.woff2" crossorigin>
 <link rel="preload" as="image" href="/img/hero-portrait.webp" media="(max-width: 700px)" fetchpriority="high">
 <link rel="preload" as="image" href="/img/hero-1000.webp" media="(min-width: 701px) and (max-width: 1099px)" fetchpriority="high">
 <link rel="preload" as="image" href="/img/hero-1536.webp" media="(min-width: 1100px)" fetchpriority="high">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300..700&display=swap">
 <meta name="description" content="House of Jung and SOMA Breath bring the breath rave to fabric London in January 2027: pranayama breathwork, electronic music and natural euphoria, fully sober. Sign up for priority access.">
 <meta name="theme-color" content="#08070D">
 <meta property="og:type" content="website">
@@ -18,6 +17,23 @@
 <meta property="og:description" content="Science-backed breathwork meets electronic music at fabric. No alcohol, no substances, just breath. Sign up for priority access.">
 <meta name="twitter:card" content="summary_large_image">
 <style>
+  /* Fonts are self-hosted (latin subset) so no visitor request goes to Google. */
+  @font-face {
+    font-family: "Archivo Black";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/archivo-black-latin.woff2") format("woff2");
+  }
+
+  @font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url("/fonts/inter-latin-var.woff2") format("woff2");
+  }
+
   /* Baseline the artifact runtime used to provide; needed when self-hosted. */
   html { color-scheme: dark; }
   body { margin: 0; }
@@ -676,8 +692,8 @@
           <p class="status" role="alert"></p>
         </form>
         <p class="fineprint">
-          We always treat your data with the utmost care. You can find our
-          <a href="#privacy">full privacy policy here</a>.
+          We’ll only email you about House of Jung × SOMA Breath events, and you can unsubscribe
+          at any time. See our <a href="/privacy">privacy policy</a>.
         </p>
       </div>
       <div class="thanks" tabindex="-1" hidden>
@@ -868,8 +884,8 @@
           <p class="status" role="alert"></p>
         </form>
         <p class="fineprint">
-          We always treat your data with the utmost care. You can find our
-          <a href="#privacy">full privacy policy here</a>.
+          We’ll only email you about House of Jung × SOMA Breath events, and you can unsubscribe
+          at any time. See our <a href="/privacy">privacy policy</a>.
         </p>
       </div>
       <div class="thanks" tabindex="-1" hidden>
@@ -882,7 +898,7 @@
 
   <footer>
     <div>House of Jung × SOMA Breath<sup>®</sup> · fabric London</div>
-    <div><a href="#privacy">Privacy policy</a></div>
+    <div><a href="/privacy">Privacy policy</a></div>
   </footer>
 
 </div>
@@ -898,23 +914,14 @@
       network: "We couldn’t reach the server. Check your connection and try again."
     };
 
-    // UTMs from the landing URL. Kept for the tab's session so a reload, or a
-    // tap on an in-page link that drops the query string, still attributes the sign-up.
+    // UTMs from the landing URL, held in memory only. Nothing is written to cookies or
+    // browser storage, which keeps the page outside PECR's consent rules (no banner).
     var utms = (function () {
       var params = new URLSearchParams(window.location.search);
-      var fromUrl = UTM_KEYS.some(function (key) { return params.get(key); });
       var result = {};
-      var stored = {};
-
-      if (!fromUrl) {
-        try { stored = JSON.parse(sessionStorage.getItem("soma_utms")) || {}; } catch (e) {}
-      }
       UTM_KEYS.forEach(function (key) {
-        result[key] = ((fromUrl ? params.get(key) : stored[key]) || "").slice(0, 200);
+        result[key] = (params.get(key) || "").slice(0, 200);
       });
-      if (fromUrl) {
-        try { sessionStorage.setItem("soma_utms", JSON.stringify(result)); } catch (e) {}
-      }
       return result;
     })();
 

@@ -11,6 +11,8 @@ Doc; Brevo and the dark redesign added 2026-09-16.
 | Path | What it is |
 | --- | --- |
 | `index.html` | The whole page — HTML, CSS, JS and the logo SVG, no build step |
+| `privacy.html` | Privacy policy, served at `/privacy` (`cleanUrls` in `vercel.json`) |
+| `fonts/` | Self-hosted Archivo Black and Inter (latin subset, woff2) |
 | `api/subscribe.js` | Vercel serverless function: validates a sign-up and adds it to Brevo |
 | `img/` | Web images: graded, resized WebP generated from the masters |
 | `assets/photos/` | Full-size master photographs (not deployed) |
@@ -23,8 +25,15 @@ Doc; Brevo and the dark redesign added 2026-09-16.
 | `content/source-copy.md` | The original client copy from the Google Doc |
 | `docs/brand.md` | Brand tokens read off somabreath.com, and where each came from |
 
-`index.html` has no build step. Beyond its own images, the only third-party request is the
-Google Fonts stylesheet.
+`index.html` has no build step and makes no third-party requests: fonts and images are
+served from the site itself.
+
+## Cookies and consent
+
+The site sets no cookies and writes nothing to browser storage. UTMs are read from the URL
+and held in memory only. That keeps it outside PECR's consent rules, so there is no cookie
+banner. **Adding the Meta Pixel (or any analytics that sets cookies) changes this:** the
+pixel must then wait for consent from a banner.
 
 ## Page structure
 
