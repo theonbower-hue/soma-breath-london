@@ -1,6 +1,6 @@
 # SOMA Breath London — waitlist landing page
 
-A single-page waitlist site for SOMA Breath in London, produced by House of Jung. Sign-ups
+A single-page waitlist site for the House of Jung × SOMA Breath breath rave at fabric London, January 2027. Sign-ups
 go to a Brevo list through a server-side route. Built 2026-09-08 from client copy in a Google
 Doc; Brevo and the dark redesign added 2026-09-16.
 
@@ -28,9 +28,10 @@ Google Fonts stylesheet.
 
 ## Page structure
 
-Full-bleed hero (masthead, headline, sign-up) → What is SOMA Breath → the 8-step Awakening
-Ceremony as a carousel → two Q&As → benefits split "In the body" / "In the mind" → second
-sign-up → Cambridge quote → footer.
+Full-bleed hero (masthead, headline, sign-up) → What happens at a breath rave (with the
+"no alcohol" callout) → What is SOMA Breath → the 8-step Awakening Ceremony as a carousel →
+Who guides the sessions → benefits split "In the body" / "In the mind" → second sign-up →
+footer.
 
 ## The waitlist
 
@@ -69,8 +70,8 @@ nowhere to go.
 
 - **No Meta Pixel is installed.** The Lead event is wired up but only fires once a pixel
   snippet is added to `<head>`.
-- **The page deliberately names no dates, venue or session logistics.** Keep it that way
-  until those are confirmed.
+- **Confirmed and on the page (2026-09-16):** the venue (fabric, London) and the month
+  (January 2027). Exact dates, times and prices are not on the page yet.
 - **Privacy policy links point at `#privacy`** in three places — needs the real URL.
 - **Cambridge and accreditation logos are missing.** The source doc called for them; the
   accreditation section was empty in the doc, so it was left out rather than invented. The
