@@ -107,9 +107,8 @@ npx vercel --prod     # deploy
 Custom domain `somabreath.houseofjung.org`:
 
 1. In the Vercel project, Settings → Domains → add `somabreath.houseofjung.org`.
-2. At the DNS provider for `houseofjung.org` (the zone is on Cloudflare), point the
-   `somabreath` CNAME at the value Vercel shows, and set it to **DNS only** (grey cloud) so
-   Vercel can issue the certificate. Until 2026-09-16 this record pointed at
+2. At GoDaddy, which runs DNS for `houseofjung.org`, point the `somabreath` CNAME at the
+   value Vercel shows (currently `b33b2c29773a12c2.vercel-dns-017.com`). Until 2026-09-16 this record pointed at
    `cname.sibpages.com` (a Brevo landing page); if the domain shows a Brevo page again,
    check that record and disconnect the domain from the Brevo landing page.
 3. TLS is issued automatically once the record resolves.
