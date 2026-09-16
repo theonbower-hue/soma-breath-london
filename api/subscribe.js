@@ -6,8 +6,6 @@
 const BREVO_URL = "https://api.brevo.com/v3/contacts";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-// A full UK postcode ("E8 3PB") or just the outward half ("E8"). Must match the page.
-const POSTCODE_RE = /^[A-Z]{1,2}[0-9][A-Z0-9]?( ?[0-9][A-Z]{2})?$/;
 
 const UTM_FIELDS = {
   utm_source: "UTM_SOURCE",
@@ -22,12 +20,6 @@ function send(res, status, body) {
 
 function clean(value, max) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
-}
-
-function normalisePostcode(value) {
-  const compact = clean(value, 16).toUpperCase().replace(/\s+/g, "");
-  // Put the space back before the inward code, so "e83pb" is stored as "E8 3PB".
-  return compact.length > 4 ? compact.slice(0, -3) + " " + compact.slice(-3) : compact;
 }
 
 module.exports = async function handler(req, res) {
@@ -54,11 +46,6 @@ module.exports = async function handler(req, res) {
     return send(res, 400, { ok: false, error: "invalid_email" });
   }
 
-  const postcode = normalisePostcode(body.postcode);
-  if (!POSTCODE_RE.test(postcode)) {
-    return send(res, 400, { ok: false, error: "invalid_postcode" });
-  }
-
   const apiKey = process.env.BREVO_API_KEY;
   const listId = Number(process.env.BREVO_LIST_ID);
   if (!apiKey || !Number.isInteger(listId) || listId <= 0) {
@@ -66,7 +53,7 @@ module.exports = async function handler(req, res) {
     return send(res, 500, { ok: false, error: "server_config" });
   }
 
-  const attributes = { POSTCODE: postcode };
+  const attributes = {};
   // Only send UTMs that are present. With updateEnabled, an empty value would
   // wipe the source recorded when this person first signed up.
   for (const [param, attribute] of Object.entries(UTM_FIELDS)) {

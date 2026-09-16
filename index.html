@@ -240,12 +240,6 @@
 
   form.waitlist { display: grid; gap: 1rem; margin: 0; }
 
-  .fields { display: grid; gap: 1rem; }
-
-  @media (min-width: 561px) {
-    .fields { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: .75rem; }
-  }
-
   .field { display: grid; gap: .4rem; align-content: start; }
 
   label {
@@ -642,23 +636,13 @@
         <h2>London sessions are filling up fast.</h2>
         <p class="lede">Sign up to be notified when spaces become available.</p>
         <form class="waitlist" action="/api/subscribe" method="post" novalidate>
-          <div class="fields">
-            <div class="field">
-              <label for="email-top">Email</label>
-              <input type="email" id="email-top" name="email" placeholder="you@example.com"
-                     autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off"
-                     spellcheck="false" enterkeyhint="next" maxlength="254" required
-                     aria-describedby="email-top-note">
-              <p class="field-note" id="email-top-note" aria-live="polite" hidden></p>
-            </div>
-            <div class="field">
-              <label for="postcode-top">Postcode</label>
-              <input type="text" id="postcode-top" name="postcode" placeholder="E8 3PB"
-                     autocomplete="postal-code" autocapitalize="characters" autocorrect="off"
-                     spellcheck="false" enterkeyhint="send" maxlength="8" required
-                     aria-describedby="postcode-top-note">
-              <p class="field-note" id="postcode-top-note" aria-live="polite" data-hint="The first half is fine, e.g. E8">The first half is fine, e.g. E8</p>
-            </div>
+          <div class="field">
+            <label for="email-top">Email</label>
+            <input type="email" id="email-top" name="email" placeholder="you@example.com"
+                   autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off"
+                   spellcheck="false" enterkeyhint="send" maxlength="254" required
+                   aria-describedby="email-top-note">
+            <p class="field-note" id="email-top-note" aria-live="polite" hidden></p>
           </div>
           <div class="hp" aria-hidden="true">
             <label for="website-top">Leave this field empty</label>
@@ -835,23 +819,13 @@
         <h2>Be first to hear when London opens.</h2>
         <p class="lede">We’ll email you the moment spaces become available.</p>
         <form class="waitlist" action="/api/subscribe" method="post" novalidate>
-          <div class="fields">
-            <div class="field">
-              <label for="email-bottom">Email</label>
-              <input type="email" id="email-bottom" name="email" placeholder="you@example.com"
-                     autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off"
-                     spellcheck="false" enterkeyhint="next" maxlength="254" required
-                     aria-describedby="email-bottom-note">
-              <p class="field-note" id="email-bottom-note" aria-live="polite" hidden></p>
-            </div>
-            <div class="field">
-              <label for="postcode-bottom">Postcode</label>
-              <input type="text" id="postcode-bottom" name="postcode" placeholder="E8 3PB"
-                     autocomplete="postal-code" autocapitalize="characters" autocorrect="off"
-                     spellcheck="false" enterkeyhint="send" maxlength="8" required
-                     aria-describedby="postcode-bottom-note">
-              <p class="field-note" id="postcode-bottom-note" aria-live="polite" data-hint="The first half is fine, e.g. E8">The first half is fine, e.g. E8</p>
-            </div>
+          <div class="field">
+            <label for="email-bottom">Email</label>
+            <input type="email" id="email-bottom" name="email" placeholder="you@example.com"
+                   autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off"
+                   spellcheck="false" enterkeyhint="send" maxlength="254" required
+                   aria-describedby="email-bottom-note">
+            <p class="field-note" id="email-bottom-note" aria-live="polite" hidden></p>
           </div>
           <div class="hp" aria-hidden="true">
             <label for="website-bottom">Leave this field empty</label>
@@ -896,13 +870,10 @@
 <script>
   (function () {
     var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    // A full UK postcode or just the outward half. Must match api/subscribe.js.
-    var POSTCODE_RE = /^[A-Z]{1,2}[0-9][A-Z0-9]?( ?[0-9][A-Z]{2})?$/;
     var UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign"];
 
     var MESSAGES = {
       email: "That email doesn’t look right. Check for a typo and try again.",
-      postcode: "Enter a UK postcode, like E8 or E8 3PB.",
       server: "Sorry, something went wrong on our side. Please try again in a minute.",
       network: "We couldn’t reach the server. Check your connection and try again."
     };
@@ -947,7 +918,6 @@
     cards.forEach(function (card) {
       var form = card.querySelector("form");
       var email = form.elements.email;
-      var postcode = form.elements.postcode;
       var button = form.querySelector("button.cta");
       var status = form.querySelector(".status");
       var busy = false;
@@ -967,24 +937,14 @@
       function clearError(input) {
         var el = note(input);
         input.removeAttribute("aria-invalid");
-        el.textContent = el.getAttribute("data-hint") || "";
+        el.textContent = "";
         el.className = "field-note";
-        el.hidden = !el.textContent;
+        el.hidden = true;
       }
 
-      [email, postcode].forEach(function (input) {
-        input.addEventListener("input", function () {
-          if (input.getAttribute("aria-invalid")) clearError(input);
-          status.textContent = "";
-        });
-      });
-
-      // Enter in the email field moves on to postcode rather than submitting half a form.
-      email.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" && !postcode.value.trim()) {
-          event.preventDefault();
-          postcode.focus();
-        }
+      email.addEventListener("input", function () {
+        if (email.getAttribute("aria-invalid")) clearError(email);
+        status.textContent = "";
       });
 
       function setBusy(state) {
@@ -999,25 +959,12 @@
 
         status.textContent = "";
         var emailValue = email.value.trim();
-        var postcodeValue = postcode.value.trim().toUpperCase().replace(/\s+/g, " ");
-
-        var firstBad = null;
         if (!EMAIL_RE.test(emailValue)) {
           setError(email, MESSAGES.email);
-          firstBad = email;
-        } else {
-          clearError(email);
-        }
-        if (!POSTCODE_RE.test(postcodeValue)) {
-          setError(postcode, MESSAGES.postcode);
-          firstBad = firstBad || postcode;
-        } else {
-          clearError(postcode);
-        }
-        if (firstBad) {
-          firstBad.focus();
+          email.focus();
           return;
         }
+        clearError(email);
 
         setBusy(true);
 
@@ -1026,7 +973,6 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             email: emailValue,
-            postcode: postcodeValue,
             website: form.elements.website.value,
             utm_source: utms.utm_source,
             utm_medium: utms.utm_medium,
@@ -1043,9 +989,6 @@
               if (data.error === "invalid_email") {
                 setError(email, MESSAGES.email);
                 email.focus();
-              } else if (data.error === "invalid_postcode") {
-                setError(postcode, MESSAGES.postcode);
-                postcode.focus();
               } else {
                 status.textContent = MESSAGES.server;
               }

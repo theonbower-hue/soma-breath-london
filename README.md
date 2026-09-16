@@ -38,9 +38,8 @@ Both sign-up cards post JSON to `/api/subscribe` (`api/subscribe.js`), which cal
 `POST https://api.brevo.com/v3/contacts` with the key from the environment. The browser never
 sees the Brevo key.
 
-- **Fields:** email and UK postcode (full, or just the outward half such as `E8`). Both are
-  validated in the page and again on the server with the same patterns. Postcodes are
-  stored upper-case with a space (`e83pb` → `E8 3PB`).
+- **Fields:** email only — marketing targets London as a whole, so no postcode is asked
+  for. The address is validated in the page and again on the server.
 - **Attribution:** `utm_source`, `utm_medium` and `utm_campaign` are read from the landing URL
   and kept in `sessionStorage` for the tab, then sent as `UTM_SOURCE`, `UTM_MEDIUM` and
   `UTM_CAMPAIGN`. Empty UTMs are left out, so a later untagged sign-up does not wipe the
@@ -52,7 +51,7 @@ sees the Brevo key.
 - **Success:** the button shows a spinner, then both cards swap to an inline thank-you. If a
   Meta Pixel (`window.fbq`) is on the page, `fbq("track", "Lead")` fires once.
 - **Errors:** the route returns `{ ok: false, error }` with `invalid_email`,
-  `invalid_postcode`, `server_config`, `upstream_unreachable` or `upstream_error`. Details go to
+  `server_config`, `upstream_unreachable` or `upstream_error`. Details go to
   the Vercel function log; the page shows a plain-English message.
 
 ### Environment variables (Vercel → Settings → Environment Variables)
@@ -62,8 +61,8 @@ sees the Brevo key.
 | `BREVO_API_KEY` | A Brevo API v3 key (Brevo → SMTP & API → API keys) |
 | `BREVO_LIST_ID` | The numeric ID of the waitlist list (Brevo → Contacts → Lists) |
 
-Redeploy after adding or changing them. In Brevo, create `POSTCODE`, `UTM_SOURCE`,
-`UTM_MEDIUM` and `UTM_CAMPAIGN` as **Text** contact attributes first, or the values have
+Redeploy after adding or changing them. In Brevo, create `UTM_SOURCE`, `UTM_MEDIUM`
+and `UTM_CAMPAIGN` as **Text** contact attributes first, or the values have
 nowhere to go.
 
 ## Known constraints and open items
