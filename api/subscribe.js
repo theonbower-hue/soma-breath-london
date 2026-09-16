@@ -2,8 +2,15 @@
 //
 // The page never talks to Brevo directly: the API key stays server-side.
 // Env: BREVO_API_KEY, BREVO_LIST_ID (set in Vercel → Settings → Environment Variables).
+// Optional: META_CAPI_TOKEN sends the sign-up to Meta's Conversions API, but only for
+// visitors who accepted cookies. META_TEST_EVENT_CODE routes events to Events Manager's
+// "Test events" tab while checking the setup; remove it afterwards.
+
+const crypto = require("crypto");
 
 const BREVO_URL = "https://api.brevo.com/v3/contacts";
+const META_PIXEL_ID = "1773555936905379";
+const META_URL = `https://graph.facebook.com/v23.0/${META_PIXEL_ID}/events`;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -12,6 +19,50 @@ const UTM_FIELDS = {
   utm_medium: "UTM_MEDIUM",
   utm_campaign: "UTM_CAMPAIGN",
 };
+
+// Server-side Lead for Meta, deduplicated against the browser pixel by event_id.
+// Never blocks or fails the sign-up: errors are logged and swallowed.
+async function sendMetaLead(req, body, email) {
+  const token = process.env.META_CAPI_TOKEN;
+  if (!token || body.consent !== true) return;
+
+  const userData = {
+    em: [crypto.createHash("sha256").update(email).digest("hex")],
+    client_ip_address: String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || undefined,
+    client_user_agent: req.headers["user-agent"] || undefined,
+    fbp: clean(body.fbp, 200) || undefined,
+    fbc: clean(body.fbc, 500) || undefined,
+  };
+
+  const payload = {
+    data: [{
+      event_name: "Lead",
+      event_time: Math.floor(Date.now() / 1000),
+      event_id: clean(body.event_id, 100) || undefined,
+      event_source_url: clean(body.page_url, 1000) || undefined,
+      action_source: "website",
+      user_data: userData,
+    }],
+    access_token: token,
+  };
+  if (process.env.META_TEST_EVENT_CODE) payload.test_event_code = process.env.META_TEST_EVENT_CODE;
+
+  try {
+    const response = await fetch(META_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(3000),
+    });
+    if (!response.ok) {
+      let detail = {};
+      try { detail = await response.json(); } catch { /* ignore */ }
+      console.error("subscribe: Meta CAPI rejected event", response.status, detail.error && detail.error.message);
+    }
+  } catch (err) {
+    console.error("subscribe: Meta CAPI request failed", err && err.name);
+  }
+}
 
 function send(res, status, body) {
   res.setHeader("Cache-Control", "no-store");
@@ -93,6 +144,7 @@ module.exports = async function handler(req, res) {
 
   // 201 = created, 204 = existing contact updated.
   if (response.ok) {
+    await sendMetaLead(req, body, email);
     return send(res, 200, { ok: true });
   }
 
@@ -101,6 +153,7 @@ module.exports = async function handler(req, res) {
 
   // Already on the list counts as success — the person is signed up either way.
   if (detail.code === "duplicate_parameter" || /already exist/i.test(detail.message || "")) {
+    await sendMetaLead(req, body, email);
     return send(res, 200, { ok: true });
   }
 

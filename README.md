@@ -30,10 +30,19 @@ served from the site itself.
 
 ## Cookies and consent
 
-The site sets no cookies and writes nothing to browser storage. UTMs are read from the URL
-and held in memory only. That keeps it outside PECR's consent rules, so there is no cookie
-banner. **Adding the Meta Pixel (or any analytics that sets cookies) changes this:** the
-pixel must then wait for consent from a banner.
+A banner asks for consent on first visit (Accept and Decline weighted equally; "Cookie
+settings" in the footer reopens it). The choice is kept in `localStorage` as
+`hoj_consent_v1`, which is strictly necessary and exempt.
+
+- **Meta Pixel `1773555936905379`** is only fetched after Accept: PageView on load, and Lead on
+  sign-up with an event ID.
+- **Conversions API:** on a successful sign-up from a visitor who accepted, `api/subscribe.js`
+  sends the same Lead server-side (same event ID, so Meta deduplicates), with the email
+  SHA-256 hashed, IP, user agent and `_fbp`/`_fbc`. Needs `META_CAPI_TOKEN` in Vercel; without it
+  this step is skipped. Set `META_TEST_EVENT_CODE` temporarily to see events under Events
+  Manager → Test events.
+- Decline or no choice means no Meta request at all, browser or server.
+- UTMs are still read from the URL and held in memory only.
 
 ## Page structure
 
@@ -70,6 +79,8 @@ sees the Brevo key.
 | --- | --- |
 | `BREVO_API_KEY` | A Brevo API v3 key (Brevo → SMTP & API → API keys) |
 | `BREVO_LIST_ID` | The numeric ID of the waitlist list (Brevo → Contacts → Lists) |
+| `META_CAPI_TOKEN` | Optional. Meta Conversions API access token (Events Manager → pixel → Settings) |
+| `META_TEST_EVENT_CODE` | Optional, temporary. Sends CAPI events to Events Manager's Test events tab |
 
 Redeploy after adding or changing them. In Brevo, create `UTM_SOURCE`, `UTM_MEDIUM`
 and `UTM_CAMPAIGN` as **Text** contact attributes first, or the values have

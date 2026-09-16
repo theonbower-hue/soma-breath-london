@@ -654,6 +654,65 @@
   }
 
 
+  /* ---------- cookie consent ---------- */
+
+  .consent {
+    position: fixed;
+    left: 50%;
+    bottom: max(.75rem, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 50;
+    width: min(calc(100% - 1.5rem), 34rem);
+    display: grid;
+    gap: .9rem;
+    padding: 1.1rem 1.2rem 1.15rem;
+    background: rgba(18, 16, 27, .96);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px -20px rgba(0, 0, 0, .8);
+    font-size: .9rem;
+    line-height: 1.5;
+  }
+
+  .consent p { margin: 0; color: var(--body-ink); }
+  .consent a { color: var(--ink); }
+
+  .consent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+
+  /* Accept and Decline carry equal weight, as regulators expect. */
+  .consent-btn {
+    font-family: var(--body);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid #3A3650;
+    border-radius: 50px;
+    min-height: 3rem;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .consent-btn:hover { border-color: var(--violet); }
+
+  .footer-links { display: flex; gap: 1.25rem; align-items: baseline; }
+
+  .link-button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--line);
+  }
+
+  .link-button:hover { text-decoration-color: var(--violet); }
+
   footer {
     max-width: var(--col);
     margin-inline: auto;
@@ -925,10 +984,97 @@
 
   <footer>
     <div>House of Jung × SOMA Breath<sup>®</sup> · fabric London</div>
-    <div><a href="/privacy">Privacy policy</a></div>
+    <div class="footer-links">
+      <a href="/privacy">Privacy policy</a>
+      <button type="button" class="link-button" data-consent-open>Cookie settings</button>
+    </div>
   </footer>
 
 </div>
+
+<div class="consent" role="dialog" aria-live="polite" aria-label="Cookie consent" hidden>
+  <p>
+    We’d like to use Meta cookies to measure how our ads perform. Nothing is tracked unless you
+    accept. <a href="/privacy#cookies">More info</a>
+  </p>
+  <div class="consent-actions">
+    <button type="button" class="consent-btn" data-consent="denied">Decline</button>
+    <button type="button" class="consent-btn" data-consent="granted">Accept</button>
+  </div>
+</div>
+
+<script>
+  // Cookie consent and the Meta Pixel. The pixel script is only fetched after "Accept",
+  // so no Meta request or cookie happens before consent (GDPR / PECR / LSSI).
+  // The choice itself is kept in localStorage, which is strictly necessary and exempt.
+  (function () {
+    var PIXEL_ID = "1773555936905379";
+    var KEY = "hoj_consent_v1";
+    var banner = document.querySelector(".consent");
+    var pixelLoaded = false;
+
+    function stored() {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    }
+
+    function remember(choice) {
+      try { localStorage.setItem(KEY, choice); } catch (e) {}
+    }
+
+    function loadPixel() {
+      if (pixelLoaded) {
+        window.fbq("consent", "grant");
+        return;
+      }
+      pixelLoaded = true;
+      /* Meta's standard base code */
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      window.fbq("init", PIXEL_ID);
+      window.fbq("track", "PageView");
+    }
+
+    function apply(choice) {
+      if (choice === "granted") {
+        loadPixel();
+      } else if (pixelLoaded) {
+        window.fbq("consent", "revoke");
+      }
+    }
+
+    function choose(choice) {
+      remember(choice);
+      banner.hidden = true;
+      apply(choice);
+    }
+
+    document.querySelectorAll("[data-consent]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        choose(button.getAttribute("data-consent"));
+      });
+    });
+
+    document.querySelectorAll("[data-consent-open]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        banner.hidden = false;
+        banner.querySelector("[data-consent]").focus();
+      });
+    });
+
+    var choice = stored();
+    if (choice === "granted" || choice === "denied") {
+      apply(choice);
+    } else {
+      banner.hidden = false;
+    }
+  })();
+</script>
 
 <script>
   (function () {
@@ -963,9 +1109,25 @@
       });
     }
 
-    function trackLead() {
+    function hasConsent() {
+      try { return localStorage.getItem("hoj_consent_v1") === "granted"; } catch (e) { return false; }
+    }
+
+    function cookie(name) {
+      var match = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));
+      return match ? decodeURIComponent(match[1]) : "";
+    }
+
+    function newEventId() {
+      if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+      return "lead-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+    }
+
+    // window.fbq only exists once the visitor has accepted cookies. The same event ID
+    // goes to the server's Conversions API call, so Meta counts the sign-up once.
+    function trackLead(eventId) {
       if (typeof window.fbq === "function") {
-        try { window.fbq("track", "Lead"); } catch (e) {}
+        try { window.fbq("track", "Lead", {}, { eventID: eventId }); } catch (e) {}
       }
     }
 
@@ -1021,6 +1183,8 @@
         clearError(email);
 
         setBusy(true);
+        var consent = hasConsent();
+        var eventId = newEventId();
 
         fetch("/api/subscribe", {
           method: "POST",
@@ -1028,6 +1192,11 @@
           body: JSON.stringify({
             email: emailValue,
             website: form.elements.website.value,
+            consent: consent,
+            event_id: consent ? eventId : "",
+            fbp: consent ? cookie("_fbp") : "",
+            fbc: consent ? cookie("_fbc") : "",
+            page_url: consent ? window.location.href : "",
             utm_source: utms.utm_source,
             utm_medium: utms.utm_medium,
             utm_campaign: utms.utm_campaign
@@ -1037,7 +1206,7 @@
             return response.json().catch(function () { return {}; }).then(function (data) {
               if (response.ok && data.ok) {
                 showThanks(card);
-                trackLead();
+                trackLead(eventId);
                 return;
               }
               if (data.error === "invalid_email") {
