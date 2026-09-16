@@ -101,21 +101,21 @@
     position: absolute;
     inset: 0 0 auto;
     z-index: -1;
-    aspect-ratio: 3 / 4;
-    max-height: 115vw;
+    /* Explicit height, not aspect-ratio + max-height: that combination shrinks the
+       width instead of cropping, leaving a dark strip down the right edge. */
+    height: 115vw;
     background-color: var(--ground);
     background-image:
       linear-gradient(to bottom, rgba(8, 7, 13, .6) 0%, rgba(8, 7, 13, 0) 20%, rgba(8, 7, 13, 0) 45%, rgba(8, 7, 13, .8) 74%, var(--ground) 96%),
       url("/img/hero-portrait.webp");
     background-size: cover;
-    background-position: center top;
+    background-position: center 30%;
     background-repeat: no-repeat;
   }
 
   @media (min-width: 701px) {
     .hero::before {
-      aspect-ratio: 3 / 2;
-      max-height: 92vh;
+      height: min(66.67vw, 92vh);
       background-image:
         linear-gradient(to bottom, rgba(8, 7, 13, .55) 0%, rgba(8, 7, 13, 0) 18%, rgba(8, 7, 13, 0) 50%, rgba(8, 7, 13, .82) 80%, var(--ground) 98%),
         url("/img/hero-1000.webp");
@@ -658,7 +658,7 @@
     <div class="signup">
       <div class="signup-body">
         <h2>January 2027 dates drop soon.</h2>
-        <p class="lede">Sign up for priority access before spaces go on sale.</p>
+        <p class="lede">Spaces are limited. Sign up for priority access before tickets go on sale.</p>
         <form class="waitlist" action="/api/subscribe" method="post" novalidate>
           <div class="field">
             <label for="email-top">Email</label>
@@ -672,7 +672,7 @@
             <label for="website-top">Leave this field empty</label>
             <input type="text" id="website-top" name="website" tabindex="-1" autocomplete="off">
           </div>
-          <button type="submit" class="cta" aria-busy="false"><span class="cta-label">Let me know when bookings open</span></button>
+          <button type="submit" class="cta" aria-busy="false"><span class="cta-label">Sign up now</span></button>
           <p class="status" role="alert"></p>
         </form>
         <p class="fineprint">
@@ -850,7 +850,7 @@
     <div class="signup">
       <div class="signup-body">
         <h2>Be first on the floor.</h2>
-        <p class="lede">January 2027 dates drop soon. Sign up for priority access before spaces go on sale.</p>
+        <p class="lede">Spaces are limited and January 2027 dates drop soon. Sign up for priority access before tickets go on sale.</p>
         <form class="waitlist" action="/api/subscribe" method="post" novalidate>
           <div class="field">
             <label for="email-bottom">Email</label>
@@ -864,7 +864,7 @@
             <label for="website-bottom">Leave this field empty</label>
             <input type="text" id="website-bottom" name="website" tabindex="-1" autocomplete="off">
           </div>
-          <button type="submit" class="cta" aria-busy="false"><span class="cta-label">Let me know when bookings open</span></button>
+          <button type="submit" class="cta" aria-busy="false"><span class="cta-label">Sign up now</span></button>
           <p class="status" role="alert"></p>
         </form>
         <p class="fineprint">
