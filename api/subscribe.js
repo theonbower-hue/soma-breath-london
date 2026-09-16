@@ -49,7 +49,15 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.BREVO_API_KEY;
   const listId = Number(process.env.BREVO_LIST_ID);
   if (!apiKey || !Number.isInteger(listId) || listId <= 0) {
-    console.error("subscribe: BREVO_API_KEY or BREVO_LIST_ID is missing or invalid");
+    // Say which setting is wrong without logging either value.
+    const rawList = process.env.BREVO_LIST_ID;
+    console.error(
+      "subscribe: bad Brevo config —",
+      "BREVO_API_KEY", apiKey ? "set" : "MISSING",
+      "| BREVO_LIST_ID", rawList === undefined ? "MISSING" : `not a positive whole number (${rawList.length} chars)`,
+      "| VERCEL_ENV", process.env.VERCEL_ENV,
+      "| similar names:", Object.keys(process.env).filter((k) => /brevo/i.test(k)).join(", ") || "none"
+    );
     return send(res, 500, { ok: false, error: "server_config" });
   }
 
