@@ -50,4 +50,8 @@ for width in 840 560; do
   rm "$OUT/tmp.png"
 done
 
+# Link-preview image (WhatsApp, iMessage, social): 1200x630 JPEG, which every platform reads.
+magick "$SRC/fabric-rave.png" -resize 1200x -gravity center -crop 1200x630+0+0 +repage \
+  -modulate 90,95,100 -strip -quality 82 "$OUT/og-share.jpg"
+
 ls -l "$OUT"
