@@ -1,0 +1,10 @@
+/* Visual-only comparison. Shared typography, copy and layout remain unchanged. */
+.club-comparison .hero-film video{object-position:50% 50%}
+.club-comparison .step:nth-child(1) img{object-position:50% 52%}
+.club-comparison .step:nth-child(2) img{object-position:52% 45%}
+.club-comparison .step:nth-child(3) img{object-position:62% 43%}
+.club-comparison .founder-photo img{object-position:50% 47%}
+@media(max-width:700px){
+ .club-comparison .step:nth-child(1) img{object-position:50% 50%}
+ .club-comparison .founder-photo img{object-position:50% 48%}
+}
