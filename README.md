@@ -71,6 +71,9 @@ sees the Brevo key.
   treated as success.
 - **Spam:** a hidden `website` honeypot field. If it is filled in, the route returns success
   without calling Brevo.
+- **Sticky bar:** a fixed "Get priority access" bar appears once the hero card scrolls away
+  and hides whenever a sign-up card is on screen, while the cookie banner is open, or after a
+  sign-up. It avoids `requestAnimationFrame`, which never runs in a hidden tab.
 - **Success:** the button shows a spinner, then both cards swap to an inline thank-you. If a
   Meta Pixel (`window.fbq`) is on the page, `fbq("track", "Lead")` fires once.
 - **Errors:** the route returns `{ ok: false, error }` with `invalid_email`,
