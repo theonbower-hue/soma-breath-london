@@ -62,15 +62,11 @@
 
   /* ---------- sign-up ---------- */
 
-  var form = document.querySelector(".signup-form");
-  if (!form) return;
+  var forms = Array.prototype.slice.call(document.querySelectorAll(".signup-form"));
+  if (!forms.length) return;
 
-  var email = form.elements.email;
-  var button = form.querySelector("button[type=submit]");
-  var status = form.querySelector(".form-status");
-  var note = document.getElementById("email-note");
-  var thanks = document.querySelector(".signup-thanks");
-  var busy = false;
+  var dialog = document.querySelector(".signup-dialog");
+  var signedUp = false;
 
   var utms = (function () {
     var params = new URLSearchParams(window.location.search);
@@ -89,80 +85,119 @@
     return "lead-" + Date.now() + "-" + Math.random().toString(36).slice(2);
   }
 
-  function setError(message) {
-    email.setAttribute("aria-invalid", "true");
-    note.textContent = message;
-    note.hidden = false;
+  /* Every CTA opens the form where the visitor is, rather than scrolling them away. */
+  if (dialog) {
+    document.querySelectorAll("[data-open-signup]").forEach(function (trigger) {
+      trigger.addEventListener("click", function () {
+        if (signedUp) { showThanksEverywhere(); }
+        if (typeof dialog.showModal === "function") dialog.showModal();
+        else dialog.setAttribute("open", "");
+        var field = dialog.querySelector('input[type="email"]');
+        if (field && !signedUp) window.setTimeout(function () { field.focus(); }, 60);
+      });
+    });
+
+    dialog.querySelectorAll("[data-close-signup]").forEach(function (button) {
+      button.addEventListener("click", function () { dialog.close(); });
+    });
+
+    // Click outside the panel closes it.
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) dialog.close();
+    });
   }
 
-  function clearError() {
-    email.removeAttribute("aria-invalid");
-    note.textContent = "";
-    note.hidden = true;
+  function showThanksEverywhere() {
+    signedUp = true;
+    forms.forEach(function (form) {
+      form.hidden = true;
+      var thanks = form.parentElement.querySelector(".signup-thanks");
+      if (thanks) thanks.hidden = false;
+    });
   }
 
-  function setBusy(state) {
-    busy = state;
-    button.disabled = state;
-    button.setAttribute("aria-busy", state ? "true" : "false");
-  }
+  forms.forEach(function (form) {
+    var email = form.elements.email;
+    var button = form.querySelector("button[type=submit]");
+    var status = form.querySelector(".form-status");
+    var note = document.getElementById(email.id + "-note");
+    var thanks = form.parentElement.querySelector(".signup-thanks");
+    var busy = false;
 
-  email.addEventListener("input", function () {
-    if (email.getAttribute("aria-invalid")) clearError();
-    status.textContent = "";
-  });
-
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    if (busy) return;
-    status.textContent = "";
-
-    var value = email.value.trim();
-    if (!EMAIL_RE.test(value)) {
-      setError(MESSAGES.email);
-      email.focus();
-      return;
+    function setError(message) {
+      email.setAttribute("aria-invalid", "true");
+      note.textContent = message;
+      note.hidden = false;
     }
-    clearError();
-    setBusy(true);
 
-    var consent = hasConsent();
-    var eventId = newEventId();
+    function clearError() {
+      email.removeAttribute("aria-invalid");
+      note.textContent = "";
+      note.hidden = true;
+    }
 
-    fetch("/api/subscribe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: value,
-        website: form.elements.website.value,
-        consent: consent,
-        event_id: consent ? eventId : "",
-        fbp: consent ? cookie("_fbp") : "",
-        fbc: consent ? cookie("_fbc") : "",
-        page_url: consent ? window.location.href : "",
-        utm_source: utms.utm_source,
-        utm_medium: utms.utm_medium,
-        utm_campaign: utms.utm_campaign
+    function setBusy(state) {
+      busy = state;
+      button.disabled = state;
+      button.setAttribute("aria-busy", state ? "true" : "false");
+    }
+
+    email.addEventListener("input", function () {
+      if (email.getAttribute("aria-invalid")) clearError();
+      status.textContent = "";
+    });
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (busy) return;
+      status.textContent = "";
+
+      var value = email.value.trim();
+      if (!EMAIL_RE.test(value)) {
+        setError(MESSAGES.email);
+        email.focus();
+        return;
+      }
+      clearError();
+      setBusy(true);
+
+      var consent = hasConsent();
+      var eventId = newEventId();
+
+      fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: value,
+          website: form.elements.website.value,
+          consent: consent,
+          event_id: consent ? eventId : "",
+          fbp: consent ? cookie("_fbp") : "",
+          fbc: consent ? cookie("_fbc") : "",
+          page_url: consent ? window.location.href : "",
+          utm_source: utms.utm_source,
+          utm_medium: utms.utm_medium,
+          utm_campaign: utms.utm_campaign
+        })
       })
-    })
-      .then(function (response) {
-        return response.json().catch(function () { return {}; }).then(function (data) {
-          if (response.ok && data.ok) {
-            form.hidden = true;
-            thanks.hidden = false;
-            thanks.focus();
-            // window.fbq only exists once the visitor has accepted cookies. The same
-            // event ID goes to the server's Conversions API call, so Meta counts it once.
-            if (typeof window.fbq === "function") {
-              try { window.fbq("track", "Lead", {}, { eventID: eventId }); } catch (e) {}
+        .then(function (response) {
+          return response.json().catch(function () { return {}; }).then(function (data) {
+            if (response.ok && data.ok) {
+              showThanksEverywhere();
+              if (thanks) thanks.focus();
+              // window.fbq only exists once the visitor has accepted cookies. The same
+              // event ID goes to the server's Conversions API call, so Meta counts it once.
+              if (typeof window.fbq === "function") {
+                try { window.fbq("track", "Lead", {}, { eventID: eventId }); } catch (e) {}
+              }
+              return;
             }
-            return;
-          }
-          if (data.error === "invalid_email") { setError(MESSAGES.email); email.focus(); }
-          else status.textContent = MESSAGES.server;
-        });
-      })
-      .catch(function () { status.textContent = MESSAGES.network; })
-      .then(function () { setBusy(false); });
+            if (data.error === "invalid_email") { setError(MESSAGES.email); email.focus(); }
+            else status.textContent = MESSAGES.server;
+          });
+        })
+        .catch(function () { status.textContent = MESSAGES.network; })
+        .then(function () { setBusy(false); });
+    });
   });
 })();

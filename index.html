@@ -26,9 +26,9 @@
 <a class="skip" href="#main">Skip to content</a>
 <header class="header">
   <a class="logo-link" href="#" aria-label="SOMA Breath, back to top"><img src="/img/soma-logo.png" width="660" height="145" alt="SOMA Breath"></a>
-  <span class="collab"><span aria-hidden="true">×</span> HOUSE OF JUNG</span>
+  <span class="collab"><span aria-hidden="true">×</span> <img src="/img/hoj-logo.png" width="449" height="69" alt="House of Jung"></span>
   <nav aria-label="Main navigation"><a href="#experience">The experience</a><a href="#niraj">Meet Niraj</a><a href="#questions">FAQs</a></nav>
-  <a class="button small" href="#priority">Get priority access <span aria-hidden="true">↗</span></a>
+  <button class="button small" type="button" data-open-signup>Get priority access <span aria-hidden="true">↗</span></button>
 </header>
 <main id="main">
 <section class="hero" aria-labelledby="hero-title">
@@ -38,7 +38,21 @@
       <h1 id="hero-title">BREATH<br><span>RAVE.</span></h1>
       <h2>Lose yourself in the music.<br>Find yourself in the breath.</h2>
       <p class="intro">Guided SOMA Breath. Electronic music. A room moving as one. A new kind of night out is coming to fabric.</p>
-      <div class="hero-actions"><a class="button" href="#priority">I want to be there <span aria-hidden="true">↗</span></a><a class="text-link" href="#experience">Explore the experience <span aria-hidden="true">↓</span></a></div>
+      <div class="hero-signup"><form class="signup-form" action="/api/subscribe" method="post" novalidate>
+<label for="email-hero">Email address</label>
+<input id="email-hero" name="email" type="email" placeholder="you@example.com" autocomplete="email"
+       inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false"
+       enterkeyhint="send" maxlength="254" required aria-describedby="email-hero-note">
+<p class="field-note" id="email-hero-note" aria-live="polite" hidden></p>
+<div class="hp" aria-hidden="true"><label for="email-hero-website">Leave this field empty</label><input id="email-hero-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+<button class="button large" type="submit" aria-busy="false"><span class="cta-label">Get priority access</span> <span aria-hidden="true">↗</span></button>
+<p class="form-status" role="alert"></p>
+</form>
+<div class="signup-thanks" tabindex="-1" hidden>
+<p class="thanks-title">You’re on the list.</p>
+<p>We’ll email you first when the January dates and tickets go live.</p>
+</div></div>
+      <div class="hero-actions"><a class="text-link" href="#experience">Explore the experience <span aria-hidden="true">↓</span></a></div>
       <p class="fine">January dates to be announced. Join the list for first access.</p>
     </div>
     <figure class="hero-film">
@@ -88,12 +102,12 @@
 </div></section>
 <section class="priority" id="priority"><div class="priority-inner wrap"><p class="eyebrow reveal">FABRIC, LONDON · JANUARY 2027</p><h2 class="display reveal">Be first<br><span>on the floor.</span></h2><div class="priority-bottom reveal"><div><p>Something different is coming to London.</p><p>Join the House of Jung × SOMA Breath priority list<br class="desktop-br"> for date announcements and first access to tickets.</p></div><div class="signup-action">
 <form class="signup-form" action="/api/subscribe" method="post" novalidate>
-<label for="email">Email address</label>
-<input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email"
+<label for="email-priority">Email address</label>
+<input id="email-priority" name="email" type="email" placeholder="you@example.com" autocomplete="email"
        inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false"
-       enterkeyhint="send" maxlength="254" required aria-describedby="email-note">
-<p class="field-note" id="email-note" aria-live="polite" hidden></p>
-<div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+       enterkeyhint="send" maxlength="254" required aria-describedby="email-priority-note">
+<p class="field-note" id="email-priority-note" aria-live="polite" hidden></p>
+<div class="hp" aria-hidden="true"><label for="email-priority-website">Leave this field empty</label><input id="email-priority-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 <button class="button large" type="submit" aria-busy="false"><span class="cta-label">Join the priority list</span> <span aria-hidden="true">↗</span></button>
 <p class="form-status" role="alert"></p>
 </form>
@@ -103,8 +117,30 @@
 </div>
 <span>Free to join.<br>We’ll email you when tickets go live.</span></div></div></div></section>
 </main>
-<footer class="footer wrap"><div class="footer-top"><img src="/img/soma-logo.png" width="660" height="145" alt="SOMA Breath"><span>×</span><strong>HOUSE OF JUNG</strong><a href="#">Back to top ↑</a></div><div class="footer-bottom"><p>Breath Rave · fabric London · January 2027</p><a href="/privacy">Event privacy policy</a></div><p class="footer-note">Breathwork experiences vary. SOMA Breath is not a substitute for medical or mental health care.</p></footer>
-<div class="mobile-cta"><span>fabric London <strong>January 2027</strong></span><a class="button small" href="#priority">Join the list <span aria-hidden="true">↗</span></a></div>
+<footer class="footer wrap"><div class="footer-top"><img src="/img/soma-logo.png" width="660" height="145" alt="SOMA Breath"><span>×</span><img class="footer-hoj" src="/img/hoj-logo.png" width="449" height="69" alt="House of Jung"><a href="#">Back to top ↑</a></div><div class="footer-bottom"><p>Breath Rave · fabric London · January 2027</p><a href="/privacy">Event privacy policy</a></div><p class="footer-note">Breathwork experiences vary. SOMA Breath is not a substitute for medical or mental health care.</p></footer>
+<div class="mobile-cta"><span>fabric London <strong>January 2027</strong></span><button class="button small" type="button" data-open-signup>Get priority access <span aria-hidden="true">↗</span></button></div>
+<dialog class="signup-dialog" aria-labelledby="signup-dialog-title">
+  <button type="button" class="dialog-close" data-close-signup aria-label="Close">×</button>
+  <p class="eyebrow">FABRIC, LONDON · JANUARY 2027</p>
+  <h2 id="signup-dialog-title">Get priority access</h2>
+  <p class="dialog-lede">Join the House of Jung × SOMA Breath priority list for date announcements and first access to tickets.</p>
+  <form class="signup-form" action="/api/subscribe" method="post" novalidate>
+<label for="email-dialog">Email address</label>
+<input id="email-dialog" name="email" type="email" placeholder="you@example.com" autocomplete="email"
+       inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false"
+       enterkeyhint="send" maxlength="254" required aria-describedby="email-dialog-note">
+<p class="field-note" id="email-dialog-note" aria-live="polite" hidden></p>
+<div class="hp" aria-hidden="true"><label for="email-dialog-website">Leave this field empty</label><input id="email-dialog-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+<button class="button large" type="submit" aria-busy="false"><span class="cta-label">Join the priority list</span> <span aria-hidden="true">↗</span></button>
+<p class="form-status" role="alert"></p>
+</form>
+<div class="signup-thanks" tabindex="-1" hidden>
+<p class="thanks-title">You’re on the list.</p>
+<p>We’ll email you first when the January dates and tickets go live.</p>
+</div>
+  <p class="dialog-fine">Free to join. We’ll email you when tickets go live.</p>
+</dialog>
+
 <div class="consent" role="dialog" aria-live="polite" aria-label="Cookie consent" hidden>
   <p>We’d like to use Meta cookies to measure how our ads perform. Nothing is tracked unless you accept. <a href="/privacy#cookies">More info</a></p>
   <div class="consent-actions">
