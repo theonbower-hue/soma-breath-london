@@ -202,3 +202,23 @@
 
 /* Buttons that open the dialog are <button>, so match the anchor styling. */
 button.button { font-family: var(--font); border: 0; cursor: pointer; }
+
+/* ---------- venue logo ---------- */
+
+.venue-large .fabric-logo {
+  display: block;
+  width: auto;
+  height: 1em;
+  margin-bottom: .12em;
+}
+
+/* text-link is styled for <a>; match it for the button that opens the dialog */
+button.text-link {
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
