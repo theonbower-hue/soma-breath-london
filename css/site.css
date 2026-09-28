@@ -252,3 +252,31 @@ button.text-link {
 @media (max-width: 860px) {
   .priority .poster { max-width: 68vw; margin-bottom: 20px; }
 }
+
+/* ---------- closing section: poster left, words and form right ---------- */
+
+.priority-grid { display: grid; gap: 40px; align-items: center; }
+
+.priority .poster { max-width: none; margin: 0; }
+
+.priority-copy > p { font-size: 1rem; line-height: 1.6; margin: 0 0 14px; }
+.priority-copy .signup-action { text-align: left; margin-top: 26px; max-width: 420px; }
+.priority-copy .signup-action > span { text-align: left; }
+
+@media (min-width: 861px) {
+  /* Words and sign-up on the left, flyer on the right. The poster stays first in
+     the markup so it leads on phones, where it reads as the save-the-date. */
+  .priority-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    gap: 64px;
+  }
+
+  .priority .poster { order: 2; }
+  .priority-copy { order: 1; }
+  .priority-copy h2.display { margin-bottom: 20px; }
+}
+
+@media (max-width: 860px) {
+  .priority .poster { max-width: 78vw; margin-bottom: 8px; }
+  .priority-copy .signup-action { max-width: none; }
+}
