@@ -236,3 +236,19 @@ button.text-link {
   height: .72em;
   align-self: center;
 }
+
+/* ---------- teaser poster ---------- */
+
+.priority .poster { margin: 0 0 24px; max-width: 300px; }
+
+.priority .poster img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px -24px rgba(23, 18, 31, .55);
+}
+
+@media (max-width: 860px) {
+  .priority .poster { max-width: 68vw; margin-bottom: 20px; }
+}
