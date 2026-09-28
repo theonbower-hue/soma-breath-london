@@ -222,3 +222,17 @@ button.text-link {
   padding: 0;
   cursor: pointer;
 }
+
+/* The venue strip sets its own type size; the mark matches its cap height. */
+.venue-word {
+  display: flex;
+  align-items: baseline;
+  gap: .4em;
+}
+
+.venue-word .fabric-logo-dark {
+  display: block;
+  width: auto;
+  height: .72em;
+  align-self: center;
+}
