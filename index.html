@@ -6,9 +6,9 @@
 <title>Breath Rave at fabric London · House of Jung × SOMA Breath</title>
 <link rel="preload" as="font" type="font/woff2" href="/fonts/archivo-black-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-var.woff2" crossorigin>
-<link rel="preload" as="image" href="/img/hero-portrait.webp" media="(max-width: 700px)" fetchpriority="high">
-<link rel="preload" as="image" href="/img/hero-1000.webp" media="(min-width: 701px) and (max-width: 1099px)" fetchpriority="high">
-<link rel="preload" as="image" href="/img/hero-1536.webp" media="(min-width: 1100px)" fetchpriority="high">
+<link rel="preload" as="image" href="/img/breathrave-poster.webp" media="(max-width: 900px)" fetchpriority="high">
+<link rel="preload" as="image" href="/img/hero-1000.webp" media="(min-width: 901px) and (max-width: 1299px)" fetchpriority="high">
+<link rel="preload" as="image" href="/img/hero-1536.webp" media="(min-width: 1300px)" fetchpriority="high">
 <meta name="description" content="House of Jung and SOMA Breath bring the breath rave to fabric London in January 2027: pranayama breathwork, electronic music and natural euphoria, fully sober. Sign up for priority access.">
 <meta name="theme-color" content="#08070D">
 <meta property="og:type" content="website">
@@ -126,15 +126,15 @@
        width instead of cropping, leaving a dark strip down the right edge. */
     height: 115vw;
     background-color: var(--ground);
+    /* Gradient only: on phones the video sits behind this, at the same height. */
     background-image:
-      linear-gradient(to bottom, rgba(8, 7, 13, .6) 0%, rgba(8, 7, 13, 0) 20%, rgba(8, 7, 13, 0) 45%, rgba(8, 7, 13, .8) 74%, var(--ground) 96%),
-      url("/img/hero-portrait.webp");
+      linear-gradient(to bottom, rgba(8, 7, 13, .6) 0%, rgba(8, 7, 13, 0) 20%, rgba(8, 7, 13, 0) 45%, rgba(8, 7, 13, .8) 74%, var(--ground) 96%);
     background-size: cover;
     background-position: center 30%;
     background-repeat: no-repeat;
   }
 
-  @media (min-width: 701px) {
+  @media (min-width: 901px) {
     .hero::before {
       height: min(66.67vw, 92vh);
       background-image:
@@ -144,7 +144,7 @@
     }
   }
 
-  @media (min-width: 1100px) {
+  @media (min-width: 1300px) {
     .hero::before {
       background-image:
         linear-gradient(to bottom, rgba(8, 7, 13, .55) 0%, rgba(8, 7, 13, 0) 18%, rgba(8, 7, 13, 0) 50%, rgba(8, 7, 13, .82) 80%, var(--ground) 98%),
@@ -199,10 +199,65 @@
     white-space: nowrap;
   }
 
-  .hero-intro {
+  .hero-grid {
     max-width: var(--col);
     /* Start the headline in the lower, faded part of the image. */
     margin: clamp(16rem, 36vw, 31rem) auto 0;
+  }
+
+  /* Phones: the video IS the top band, and the hero's gradient sits over it. */
+  .hero-video {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: -2;
+    height: 115vw;
+    margin: 0;
+  }
+
+  .hero-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-video figcaption { display: none; }
+
+  @media (min-width: 901px) {
+    /* Desktop: the video becomes a panel beside the headline, over the image band. */
+    .hero-grid {
+      max-width: var(--wide);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 21rem;
+      gap: 3rem;
+      align-items: end;
+      margin-top: clamp(14rem, 26vw, 26rem);
+    }
+
+    .hero-intro { max-width: 34rem; }
+
+    .hero-video {
+      position: static;
+      height: auto;
+      z-index: 0;
+      display: grid;
+      gap: .6rem;
+    }
+
+    .hero-video video {
+      aspect-ratio: 3 / 4;
+      height: auto;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .9);
+    }
+
+    .hero-video figcaption {
+      display: block;
+      font-size: .72rem;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, .6);
+    }
   }
 
   .eyebrow, .sec-label {
@@ -215,19 +270,28 @@
   }
 
   .hero .eyebrow { color: var(--violet-soft); }
+  .hero .eyebrow span { opacity: .55; margin: 0 .45rem; }
 
   h1 {
     font-family: var(--display);
     font-weight: 400;
-    font-size: clamp(2.15rem, 5.4vw, 3.7rem);
-    line-height: 1.06;
-    letter-spacing: -.032em;
+    font-size: clamp(3.1rem, 13vw, 6.5rem);
+    line-height: .92;
+    letter-spacing: -.04em;
+    text-transform: uppercase;
     color: #FFFFFF;
-    text-wrap: balance;
     margin: 0;
   }
 
   h1 span { color: var(--violet-soft); }
+
+  .hero-lines {
+    margin: 1.25rem 0 0;
+    font-size: clamp(1.05rem, 3.4vw, 1.3rem);
+    font-weight: 600;
+    line-height: 1.35;
+    color: #FFFFFF;
+  }
 
   .standfirst {
     font-size: 1.1rem;
@@ -654,6 +718,80 @@
   }
 
 
+  /* ---------- steps ---------- */
+
+  .steps {
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .steps li {
+    background: var(--ground-alt);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius);
+    padding: 1.5rem 1.6rem 1.6rem;
+  }
+
+  .step-index {
+    display: block;
+    font-family: var(--display);
+    font-size: .95rem;
+    letter-spacing: .04em;
+    color: var(--violet);
+    margin-bottom: .55rem;
+  }
+
+  .steps h3 { margin-bottom: .45rem; }
+  .steps p { margin: 0; font-size: 1rem; }
+
+  /* ---------- FAQ ---------- */
+
+  .faq { display: grid; gap: .5rem; margin-top: 2rem; }
+
+  .faq details {
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .faq summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem .25rem;
+    min-height: 3.25rem;
+    font-size: 1.02rem;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    list-style: none;
+    touch-action: manipulation;
+  }
+
+  .faq summary::-webkit-details-marker { display: none; }
+
+  .faq summary::after {
+    content: "";
+    flex: none;
+    width: .55rem;
+    height: .55rem;
+    margin-right: .35rem;
+    border-right: 2px solid var(--violet);
+    border-bottom: 2px solid var(--violet);
+    transform: rotate(45deg) translate(-.1rem, -.1rem);
+    transition: transform .2s ease;
+  }
+
+  .faq details[open] summary::after { transform: rotate(225deg) translate(-.1rem, -.1rem); }
+
+  .faq details p { margin: 0 .25rem 1.2rem; font-size: 1rem; color: var(--body-ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq summary::after { transition: none; }
+  }
+
   /* ---------- cookie consent ---------- */
 
   .consent {
@@ -739,15 +877,28 @@
       <div class="badge">January 2027</div>
     </header>
 
-    <div class="hero-intro">
-      <p class="eyebrow">House of Jung × SOMA Breath · London</p>
-      <h1>The <span>breath rave</span> is coming to fabric.</h1>
-      <p class="standfirst">
-        A new kind of night out at London’s world-renowned nightclub. Science-backed pranayama
-        breathwork meets cutting-edge electronic music and fabric’s sound, turning the dance floor
-        into a space for release, connection and natural euphoria.
-      </p>
-      <p class="standfirst standfirst-kicker">No alcohol. No substances. Just breath.</p>
+    <div class="hero-grid">
+      <div class="hero-intro">
+        <p class="eyebrow">fabric, London <span aria-hidden="true">/</span> January 2027</p>
+        <h1>BREATH<br><span>RAVE.</span></h1>
+        <p class="hero-lines">
+          Lose yourself in the music.<br>Find yourself in the breath.
+        </p>
+        <p class="standfirst">
+          House of Jung and SOMA Breath bring guided pranayama breathwork to fabric’s dance floor,
+          with cutting-edge electronic music and a room moving as one.
+        </p>
+        <p class="standfirst standfirst-kicker">No alcohol. No substances. Just breath.</p>
+      </div>
+
+      <figure class="hero-video">
+        <video poster="/img/breathrave-poster.webp" autoplay muted loop playsinline preload="metadata"
+               aria-label="Footage from SOMA Breath gatherings: people dancing, smiling and moving together in a dark room.">
+          <source src="/img/breathrave.webm" type="video/webm">
+          <source src="/img/breathrave.mp4" type="video/mp4">
+        </video>
+        <figcaption>Footage from SOMA Breath gatherings. The fabric experience is still to come.</figcaption>
+      </figure>
     </div>
 
     <div class="signup">
@@ -788,13 +939,40 @@
 
   <section>
     <div class="col">
-      <p class="sec-label">The night</p>
-      <h2 class="sec">What happens at a breath rave?</h2>
+      <p class="sec-label">A different way to go out</p>
+      <h2 class="sec">Out of your head. Into the moment.</h2>
       <p>
-        It starts on the floor. Several rounds of guided somatic breathing, rooted in yoga, take you
-        out of your head and into your body. Then the music lifts and the room moves into dance.
-        SOMA-trained breathwork guides and experienced breathwork DJs lead you the whole way.
+        You know that feeling when the music takes over and everything else falls away? Now bring
+        your breath into it. You start on the mat, follow the music, and see where it takes you.
+        SOMA-trained guides and breathwork DJs lead you the whole way.
       </p>
+
+      <ol class="steps">
+        <li>
+          <span class="step-index" aria-hidden="true">01</span>
+          <h3>The breath</h3>
+          <p>
+            Guided rounds of rhythmic, somatic breathing, in time with the music. Nothing to work
+            out in your head — you are talked through all of it.
+          </p>
+        </li>
+        <li>
+          <span class="step-index" aria-hidden="true">02</span>
+          <h3>The music</h3>
+          <p>
+            The energy rises and the room opens into dance. Electronic music, freedom to move, a
+            shared rhythm. No choreography, no performance.
+          </p>
+        </li>
+        <li>
+          <span class="step-index" aria-hidden="true">03</span>
+          <h3>The connection</h3>
+          <p>
+            Space to settle, notice how you feel and connect with the people around you. Your
+            experience is your own, and there is no right way to feel.
+          </p>
+        </li>
+      </ol>
       <div class="callout">
         <h3>No alcohol. No substances.</h3>
         <p>
@@ -896,18 +1074,66 @@
   </section>
 
   <section>
-    <div class="col qa">
-      <div>
-        <h3>Who guides the sessions?</h3>
-        <p>
-          Every breath rave is hosted by a fully certified, trauma-informed SOMA Breath<sup>®</sup>
-          Transformational Coach, trained to guide powerful sessions and respond safely if deep
-          emotional reactions arise.
-        </p>
-      </div>
+    <div class="col">
+      <p class="sec-label">The person behind the practice</p>
+      <h2 class="sec">A pharmacist’s mind. A musician’s soul.</h2>
+      <p>
+        Before SOMA Breath, Niraj Naik was a pharmacist and a music producer. His own health crisis
+        led him to pranayama, meditation and the role of breath in how we feel, and he brought those
+        worlds together into one guided practice.
+      </p>
+      <p>
+        Known as The Renegade Pharmacist, Niraj created Mindvalley’s Breathwork for Life and has
+        produced music for Wim Hof Method courses and app.
+      </p>
     </div>
   </section>
 
+  <section>
+    <div class="col">
+      <p class="sec-label">Good questions</p>
+      <h2 class="sec">Curious? Start here.</h2>
+
+      <div class="faq">
+        <details>
+          <summary>Do I need breathwork or dance experience?</summary>
+          <p>
+            No. You are guided throughout, at your own pace. You don’t need to be an experienced
+            meditator or a confident dancer to come.
+          </p>
+        </details>
+        <details>
+          <summary>When is it, and how do I get tickets?</summary>
+          <p>
+            January 2027 at fabric, London. Dates are still to be announced. Sign up above and we
+            will email you first when dates and tickets go live.
+          </p>
+        </details>
+        <details>
+          <summary>Who guides the session?</summary>
+          <p>
+            A fully certified, trauma-informed SOMA Breath<sup>®</sup> Transformational Coach, trained
+            to guide powerful sessions and to respond safely if deep emotional reactions arise.
+            We will share the full line-up with our priority list.
+          </p>
+        </details>
+        <details>
+          <summary>Is breathwork suitable for everyone?</summary>
+          <p>
+            Most people can take part, and you can stop or rest at any point. If you are pregnant,
+            or you have a heart condition, epilepsy, high blood pressure, a history of seizures,
+            fainting or a significant mental health condition, please check with your doctor first
+            and tell your guide on the night.
+          </p>
+        </details>
+        <details>
+          <summary>Is it really alcohol-free?</summary>
+          <p>
+            Yes. No alcohol and no substances. Soft drinks and other refreshments will be on offer.
+          </p>
+        </details>
+      </div>
+    </div>
   <section>
     <div class="col">
       <p class="sec-label">What you can expect</p>

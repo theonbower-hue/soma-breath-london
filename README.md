@@ -46,10 +46,14 @@ settings" in the footer reopens it). The choice is kept in `localStorage` as
 
 ## Page structure
 
-Full-bleed hero (masthead, headline, sign-up) → What happens at a breath rave (with the
-"no alcohol" callout) → What is SOMA Breath → the 8-step Awakening Ceremony as a carousel →
-Who guides the sessions → benefits split "In the body" / "In the mind" → second sign-up →
-footer.
+Hero (masthead, BREATH RAVE headline, video, sign-up) → Out of your head, into the moment
+(three steps + "no alcohol" callout) → What is SOMA Breath → the 8-step Awakening Ceremony as
+a carousel → Niraj Naik → FAQ → benefits split "In the body" / "In the mind" → poster →
+second sign-up → footer.
+
+Copy and structure merge what SOMA built at soma-breath-fabric.niraj647571.chatgpt.site with
+this page: their caps wordmark, "Lose yourself in the music" lines, three-step story, FAQ,
+founder section and the "footage is from past gatherings" line.
 
 ## The waitlist
 
@@ -171,6 +175,11 @@ SOMA Breath rave at fabric, 1536x1024. It is shown as a band across the top of t
 only a light grade, because its "House of Jung x SOMA Breath" screen should stay readable.
 There is a portrait crop centred on the DJ booth for phones: about 29KB on a phone and 67KB
 on desktop.
+
+`breathrave-master.mp4` — real footage from SOMA gatherings (720x960, 7.8s, no audio). On
+phones it is the hero band itself; from 901px it becomes a panel beside the headline, over
+the generated fabric image. Encoded to MP4 (761KB) and WebM (544KB) with a WebP poster, and
+captioned so nobody reads it as footage of fabric.
 
 `fabric-breathwork.png` — a generated image of the breathwork half of the night at fabric,
 1536x1024, same light grade. It illustrates "What happens at a breath rave?".

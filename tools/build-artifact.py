@@ -51,7 +51,14 @@ markup = re.sub(
 
 out = head_inner.rstrip() + "\n\n" + markup.strip() + "\n"
 
-# 3. inline every local image — artifacts cannot fetch images over the network
+# 3. drop the hero video — artifacts cannot fetch media over the network; the poster
+#    image stays as the phone hero via the CSS fallback below
+out = re.sub(r'\n      <figure class="hero-video">.*?</figure>\n', "\n", out, flags=re.S)
+out = out.replace(
+    '/* Gradient only: on phones the video sits behind this, at the same height. */\n    background-image:\n      linear-gradient(to bottom, rgba(8, 7, 13, .6) 0%, rgba(8, 7, 13, 0) 20%, rgba(8, 7, 13, 0) 45%, rgba(8, 7, 13, .8) 74%, var(--ground) 96%);',
+    'background-image:\n      linear-gradient(to bottom, rgba(8, 7, 13, .6) 0%, rgba(8, 7, 13, 0) 20%, rgba(8, 7, 13, 0) 45%, rgba(8, 7, 13, .8) 74%, var(--ground) 96%),\n      url("/img/breathrave-poster.webp");')
+
+# 4. inline every local image — artifacts cannot fetch images over the network
 def data_uri(name):
     path = ROOT / name
     if not path.exists():
@@ -64,7 +71,7 @@ referenced = sorted(set(re.findall(r'(?<=["\'(,\s])(/[\w./-]+\.(?:jpe?g|webp))(?
 for ref in referenced:
     out = out.replace(ref, data_uri(ref.lstrip("/")))
 
-if re.search(r'["\'(,\s]/[\w./-]+\.(jpe?g|png|webp|gif|svg)', out):
+if re.search(r'["\'(,\s]/[\w./-]+\.(jpe?g|png|webp|gif|svg|mp4|webm)', out):
     raise SystemExit("a local image reference survived — it would render blank")
 
 if "<svg" in out:

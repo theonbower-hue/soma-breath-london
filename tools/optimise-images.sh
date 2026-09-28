@@ -31,8 +31,7 @@ grade() {
 # The master is 1536x1024, so the wide version is not upscaled.
 grade "$SRC/fabric-rave.png" "$OUT/hero-1536.webp" 1536 85 90 "" 6
 grade "$SRC/fabric-rave.png" "$OUT/hero-1000.webp" 1000 85 90 "" 6
-# Portrait crop for phones, centred on the DJ booth.
-grade "$SRC/fabric-rave.png" "$OUT/hero-portrait.webp" 720 85 90 "768x1024+436+0" 6
+# (No portrait crop: on phones the hero is the video, with breathrave-poster.webp behind it.)
 
 # The generated breathwork image at fabric: same light grade as the hero.
 grade "$SRC/fabric-breathwork.png" "$OUT/breathwork-1200.webp" 1200 88 90 "" 6
@@ -53,5 +52,14 @@ done
 # Link-preview image (WhatsApp, iMessage, social): 1200x630 JPEG, which every platform reads.
 magick "$SRC/fabric-rave.png" -resize 1200x -gravity center -crop 1200x630+0+0 +repage \
   -modulate 90,95,100 -strip -quality 82 "$OUT/og-share.jpg"
+
+# Hero video (720x960, no audio) and its poster frame, from the master clip.
+ffmpeg -v error -y -i "$SRC/breathrave-master.mp4" -an -movflags +faststart -vf "scale=720:-2" \
+  -c:v libx264 -profile:v main -crf 30 -preset slow -pix_fmt yuv420p "$OUT/breathrave.mp4"
+ffmpeg -v error -y -i "$SRC/breathrave-master.mp4" -an -vf "scale=720:-2" \
+  -c:v libvpx-vp9 -crf 38 -b:v 0 -row-mt 1 -deadline good "$OUT/breathrave.webm"
+ffmpeg -v error -y -i "$SRC/breathrave-master.mp4" -vf "select=eq(n\,0),scale=720:-2" -frames:v 1 "$OUT/tmp.png"
+cwebp -quiet -q 62 "$OUT/tmp.png" -o "$OUT/breathrave-poster.webp"
+rm "$OUT/tmp.png"
 
 ls -l "$OUT"
