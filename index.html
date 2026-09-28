@@ -136,18 +136,22 @@
 
   @media (min-width: 901px) {
     .hero::before {
-      height: min(66.67vw, 92vh);
+      height: min(78vw, 108vh);
+      /* Softened so the sharp footage is the one focal image, and the venue image's own
+         wordmark doesn't compete with the headline. */
+      filter: blur(3px) saturate(.85);
+      transform: scale(1.03);
       background-image:
-        linear-gradient(to bottom, rgba(8, 7, 13, .55) 0%, rgba(8, 7, 13, 0) 18%, rgba(8, 7, 13, 0) 50%, rgba(8, 7, 13, .82) 80%, var(--ground) 98%),
+        linear-gradient(to bottom, rgba(8, 7, 13, .72) 0%, rgba(8, 7, 13, .35) 22%, rgba(8, 7, 13, .62) 48%, rgba(8, 7, 13, .93) 78%, var(--ground) 97%),
         url("/img/hero-1000.webp");
-      background-position: center 35%;
+      background-position: center 38%;
     }
   }
 
   @media (min-width: 1300px) {
     .hero::before {
       background-image:
-        linear-gradient(to bottom, rgba(8, 7, 13, .55) 0%, rgba(8, 7, 13, 0) 18%, rgba(8, 7, 13, 0) 50%, rgba(8, 7, 13, .82) 80%, var(--ground) 98%),
+        linear-gradient(to bottom, rgba(8, 7, 13, .72) 0%, rgba(8, 7, 13, .35) 22%, rgba(8, 7, 13, .62) 48%, rgba(8, 7, 13, .93) 78%, var(--ground) 97%),
         url("/img/hero-1536.webp");
     }
   }
@@ -224,39 +228,58 @@
   .hero-video figcaption { display: none; }
 
   @media (min-width: 901px) {
-    /* Desktop: the video becomes a panel beside the headline, over the image band. */
+    /* The masthead shares the hero grid's edges, not the narrow reading column. */
+    .masthead { max-width: var(--wide); }
+
+    /* Desktop: two aligned columns — words and form on the left, the footage as the
+       single focal image on the right. Both columns share one baseline and one edge. */
     .hero-grid {
       max-width: var(--wide);
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 21rem;
-      gap: 3rem;
-      align-items: end;
-      margin-top: clamp(14rem, 26vw, 26rem);
+      grid-template-columns: minmax(0, 1fr) clamp(19rem, 27vw, 24rem);
+      gap: 3.5rem;
+      align-items: stretch;
+      margin-top: clamp(6rem, 11vw, 10rem);
     }
 
-    .hero-intro { max-width: 34rem; }
+    .hero-col {
+      display: grid;
+      align-content: start;
+      gap: 2.5rem;
+      min-width: 0;
+    }
+
+    .hero-intro { max-width: 32rem; }
+
+    /* The card belongs to the text column, so the left edges line up. */
+    .hero .signup { margin: 0; max-width: none; }
 
     .hero-video {
       position: static;
       height: auto;
       z-index: 0;
       display: grid;
-      gap: .6rem;
+      gap: .75rem;
+      align-self: center;
+      align-content: center;
     }
 
+    /* Keep the clip's own shape: stretching it to the column height crops into faces. */
     .hero-video video {
       aspect-ratio: 3 / 4;
       height: auto;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, .14);
-      box-shadow: 0 40px 80px -40px rgba(0, 0, 0, .9);
+      max-height: 34rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, .12);
+      box-shadow: 0 34px 70px -34px rgba(0, 0, 0, .9);
     }
 
     .hero-video figcaption {
       display: block;
       font-size: .72rem;
-      line-height: 1.4;
-      color: rgba(255, 255, 255, .6);
+      line-height: 1.45;
+      color: var(--muted);
+      max-width: 22rem;
     }
   }
 
@@ -935,6 +958,7 @@
     </header>
 
     <div class="hero-grid">
+      <div class="hero-col">
       <div class="hero-intro">
         <p class="eyebrow">fabric, London <span aria-hidden="true">/</span> January 2027</p>
         <h1>BREATH<br><span>RAVE.</span></h1>
@@ -948,6 +972,39 @@
         <p class="standfirst standfirst-kicker">No alcohol. No substances. Just breath.</p>
       </div>
 
+      <div class="signup">
+        <div class="signup-body">
+          <h2>January 2027 dates drop soon.</h2>
+          <p class="lede">Spaces are limited. Sign up for priority access before tickets go on sale.</p>
+          <form class="waitlist" action="/api/subscribe" method="post" novalidate>
+            <div class="field">
+              <label for="email-top">Email</label>
+              <input type="email" id="email-top" name="email" placeholder="you@example.com"
+                     autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off"
+                     spellcheck="false" enterkeyhint="send" maxlength="254" required
+                     aria-describedby="email-top-note">
+              <p class="field-note" id="email-top-note" aria-live="polite" hidden></p>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="website-top">Leave this field empty</label>
+              <input type="text" id="website-top" name="website" tabindex="-1" autocomplete="off">
+            </div>
+            <button type="submit" class="cta" aria-busy="false"><span class="cta-label">Sign up now</span></button>
+            <p class="status" role="alert"></p>
+          </form>
+          <p class="fineprint">
+            We’ll only email you about House of Jung × SOMA Breath events, and you can unsubscribe
+            at any time. See our <a href="/privacy">privacy policy</a>.
+          </p>
+        </div>
+        <div class="thanks" tabindex="-1" hidden>
+          <div class="tick" aria-hidden="true"><i></i></div>
+          <h2>You’re on the list.</h2>
+          <p>We’ll email you first when the January dates drop.</p>
+        </div>
+      </div>
+      </div>
+
       <figure class="hero-video">
         <video poster="/img/breathrave-poster.webp" autoplay muted loop playsinline preload="metadata"
                aria-label="Footage from SOMA Breath gatherings: people dancing, smiling and moving together in a dark room.">
@@ -958,37 +1015,6 @@
       </figure>
     </div>
 
-    <div class="signup">
-      <div class="signup-body">
-        <h2>January 2027 dates drop soon.</h2>
-        <p class="lede">Spaces are limited. Sign up for priority access before tickets go on sale.</p>
-        <form class="waitlist" action="/api/subscribe" method="post" novalidate>
-          <div class="field">
-            <label for="email-top">Email</label>
-            <input type="email" id="email-top" name="email" placeholder="you@example.com"
-                   autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off"
-                   spellcheck="false" enterkeyhint="send" maxlength="254" required
-                   aria-describedby="email-top-note">
-            <p class="field-note" id="email-top-note" aria-live="polite" hidden></p>
-          </div>
-          <div class="hp" aria-hidden="true">
-            <label for="website-top">Leave this field empty</label>
-            <input type="text" id="website-top" name="website" tabindex="-1" autocomplete="off">
-          </div>
-          <button type="submit" class="cta" aria-busy="false"><span class="cta-label">Sign up now</span></button>
-          <p class="status" role="alert"></p>
-        </form>
-        <p class="fineprint">
-          We’ll only email you about House of Jung × SOMA Breath events, and you can unsubscribe
-          at any time. See our <a href="/privacy">privacy policy</a>.
-        </p>
-      </div>
-      <div class="thanks" tabindex="-1" hidden>
-        <div class="tick" aria-hidden="true"><i></i></div>
-        <h2>You’re on the list.</h2>
-        <p>We’ll email you first when the January dates drop.</p>
-      </div>
-    </div>
   </div>
 </div>
 
