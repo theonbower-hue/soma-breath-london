@@ -280,3 +280,113 @@ button.text-link {
   .priority .poster { max-width: 78vw; margin-bottom: 8px; }
   .priority-copy .signup-action { max-width: none; }
 }
+
+/* ---------- sign-up: matching field and button, clearer button ---------- */
+
+.signup-kicker {
+  margin: 0 0 12px;
+  font-size: .92rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.signup-form input[type="email"],
+.signup-form .button {
+  min-height: 58px;
+  border-radius: 100px;
+  padding-inline: 24px;
+}
+
+/* Purple reads as "press me"; the near-black pill was reading as a block of text. */
+.signup-form .button {
+  background: var(--purple);
+  color: #fff;
+  box-shadow: 0 12px 26px -12px rgba(107, 43, 216, .75);
+  justify-content: space-between;
+  transition: background .18s, transform .1s, box-shadow .18s;
+}
+
+.signup-form .button:hover:not(:disabled) { background: #5a21bd; }
+.signup-form .button:active:not(:disabled) { transform: scale(.985); box-shadow: 0 6px 16px -10px rgba(107, 43, 216, .8); }
+
+/* The white button on the dark venue panel gets the same lift. */
+.sound-copy .button.light {
+  color: var(--purple);
+  box-shadow: 0 12px 28px -14px rgba(0, 0, 0, .8);
+}
+
+/* ---------- venue: name under the mark, aligned ---------- */
+
+.sound-copy .venue-large {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.sound-copy .venue-large > span {
+  font-size: .22em;
+  font-weight: 600;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@media (max-width: 700px) {
+  /* "London" under the fabric mark, both flush left */
+  .venue-word { flex-direction: column; align-items: flex-start; gap: 7px; }
+  .venue-word .fabric-logo-dark { height: 1.1em; align-self: flex-start; }
+  .venue-word > span { font-size: .5em; letter-spacing: .02em; }
+
+  /* One fact per row, full-width rules, so nothing sits off to one side */
+  .event-strip { grid-template-columns: 1fr; gap: 0; }
+  .event-strip > div + div {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid #2a183320;
+    padding-top: 18px;
+    margin-top: 18px;
+  }
+  .event-strip > div:nth-child(3) {
+    grid-column: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    padding-top: 18px;
+    margin-top: 18px;
+  }
+
+  /* flyer centred */
+  .priority .poster { margin-inline: auto; }
+}
+
+/* Field and button: identical footprint */
+.signup-form input[type="email"],
+.signup-form .button {
+  height: 58px;
+  min-height: 58px;
+  padding-block: 0;
+}
+
+/* The kicker line and placeholder say it; keep the label for screen readers only. */
+.signup-form label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Solid white on the dark panel: the tinted version read as disabled. */
+.sound-copy .button.light {
+  background: #fff;
+  color: var(--purple);
+}
+
+.sound-copy .button.light:hover { background: #f3eeff; }
