@@ -335,31 +335,56 @@ button.text-link {
 }
 
 @media (max-width: 700px) {
-  /* "London" under the fabric mark, both flush left */
-  .venue-word { flex-direction: column; align-items: flex-start; gap: 7px; }
-  .venue-word .fabric-logo-dark { height: 1.1em; align-self: flex-start; }
-  .venue-word > span { font-size: .5em; letter-spacing: .02em; margin-left: 0; }
-
-  /* One fact per row, full-width rules, so nothing sits off to one side */
+  /* One fact per row, each on a single line: label left, value right, with
+     full-width rules between them. */
   .event-strip { grid-template-columns: 1fr; gap: 0; }
+
+  .event-strip > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding-left: 0;
+    padding-block: 16px;
+  }
+
   .event-strip > div + div {
     border-left: 0;
     padding-left: 0;
     border-top: 1px solid #2a183320;
-    padding-top: 18px;
-    margin-top: 18px;
+    margin-top: 0;
   }
+
   .event-strip > div:nth-child(3) {
     grid-column: auto;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 7px;
-    padding-top: 18px;
-    margin-top: 18px;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+    padding-top: 16px;
+    margin-top: 0;
   }
+
+  /* their rules indent the middle column for the old two-column strip */
+  .event-strip > div:nth-child(2) { padding-left: 0; }
+
+  .event-strip .meta-label { flex: none; }
+  .event-strip strong { text-align: right; }
+  .event-strip > div:nth-child(2) strong { max-width: none; }
+
+  /* "fabric" and "London" ride the same line again in this layout */
+  .venue-word { flex-direction: row; align-items: center; gap: 8px; }
+  .venue-word .fabric-logo-dark { height: 1em; align-self: center; }
+  .venue-word > span { font-size: .62em; letter-spacing: .01em; margin-left: 0; }
 
   /* flyer centred */
   .priority .poster { margin-inline: auto; }
+}
+
+@media (max-width: 370px) {
+  /* their stylesheet stacks the third row again below 370px */
+  .event-strip > div:nth-child(3) { flex-direction: row; align-items: center; gap: 14px; }
+}
 }
 
 /* Field and button: identical footprint */
