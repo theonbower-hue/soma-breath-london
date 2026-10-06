@@ -338,7 +338,7 @@ button.text-link {
   /* "London" under the fabric mark, both flush left */
   .venue-word { flex-direction: column; align-items: flex-start; gap: 7px; }
   .venue-word .fabric-logo-dark { height: 1.1em; align-self: flex-start; }
-  .venue-word > span { font-size: .5em; letter-spacing: .02em; }
+  .venue-word > span { font-size: .5em; letter-spacing: .02em; margin-left: 0; }
 
   /* One fact per row, full-width rules, so nothing sits off to one side */
   .event-strip { grid-template-columns: 1fr; gap: 0; }
