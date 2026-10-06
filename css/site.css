@@ -415,3 +415,40 @@ button.text-link {
 }
 
 .sound-copy .button.light:hover { background: #f3eeff; }
+
+/* ---------- proof strip ---------- */
+
+.proof { padding-block: 10px 0; }
+
+.proof-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 28px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding-block: 30px;
+}
+
+.proof-list li { display: grid; gap: 7px; }
+
+.proof-list strong {
+  font-family: "Archivo Black", var(--font);
+  font-size: .95rem;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.proof-list span { font-size: .92rem; line-height: 1.6; color: var(--muted); }
+
+@media (min-width: 861px) {
+  .proof-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px; padding-block: 36px; }
+}
+
+/* ---------- who comes ---------- */
+
+.who-inner { max-width: 44rem; }
+.who-inner h2 { margin-bottom: 20px; }
+.who-inner h2 > span { color: var(--purple); }
+.who-inner p { font-size: 1.05rem; line-height: 1.65; margin: 0 0 14px; }
