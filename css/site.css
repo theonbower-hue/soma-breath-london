@@ -455,12 +455,11 @@ button.text-link {
 
 /* ---------- secret venue ---------- */
 
+/* Matches the other values in the strip: it is a sentence, not a logo. */
 .venue-secret {
   display: block;
-  font-size: .95rem;
   font-weight: 650;
-  letter-spacing: -.01em;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 
 .venue-secret > span {
@@ -484,7 +483,7 @@ button.text-link {
 
 @media (max-width: 700px) {
   .venue-secret { text-align: right; }
-  .venue-secret > span { font-size: .72rem; }
+  .venue-secret > span { font-size: .72rem; font-weight: 400; }
 }
 
 /* Segments wrap as whole phrases, never mid-phrase. */
