@@ -45,7 +45,7 @@ grade "$SRC/community.jpg" "$OUT/community-700.webp" 700 82 45
 # poorly, so it is sized for its on-page width (max ~26rem) at 1x and 2x.
 for width in 760 480; do
   magick "$SRC/breath-rave-poster.png" -resize "${width}x" -strip "$OUT/tmp.png"
-  cwebp -quiet -q 55 -m 6 "$OUT/tmp.png" -o "$OUT/poster-v21-$width.webp"
+  cwebp -quiet -q 55 -m 6 "$OUT/tmp.png" -o "$OUT/poster-v3-$width.webp"
   rm "$OUT/tmp.png"
 done
 
