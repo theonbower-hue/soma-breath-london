@@ -63,3 +63,8 @@ cwebp -quiet -q 62 "$OUT/tmp.png" -o "$OUT/breathrave-poster.webp"
 rm "$OUT/tmp.png"
 
 ls -l "$OUT"
+
+# Step 03 "The connection": SOMA's club-floor photograph, October 2026. Cropped to 5:4
+# from the right of the frame, desaturated a touch and tinted toward the page purple so
+# it sits with breath.webp and dance.webp.
+# grade "$SRC/connection-floor.jpg" "$OUT/connection-v2.webp" 1400 100 74 "1406x1125+120+0" 10
