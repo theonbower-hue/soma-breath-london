@@ -452,3 +452,42 @@ button.text-link {
 .who-inner h2 { margin-bottom: 20px; }
 .who-inner h2 > span { color: var(--purple); }
 .who-inner p { font-size: 1.05rem; line-height: 1.65; margin: 0 0 14px; }
+
+/* ---------- secret venue ---------- */
+
+.venue-secret {
+  display: block;
+  font-size: .95rem;
+  font-weight: 650;
+  letter-spacing: -.01em;
+  line-height: 1.35;
+}
+
+.venue-secret > span {
+  display: block;
+  font-size: .78rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 0;
+  letter-spacing: 0;
+}
+
+.venue-secret-large {
+  font-family: "Archivo Black", var(--font);
+  font-size: clamp(2rem, 7vw, 3.1rem);
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  display: block;
+  margin-bottom: 22px;
+  max-width: 11ch;
+}
+
+@media (max-width: 700px) {
+  .venue-secret { text-align: right; }
+  .venue-secret > span { font-size: .72rem; }
+}
+
+/* The headline repeats the name directly below, so phones drop it from the eyebrow. */
+@media (max-width: 620px) {
+  .eyebrow-name { display: none; }
+}
