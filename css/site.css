@@ -487,7 +487,6 @@ button.text-link {
   .venue-secret > span { font-size: .72rem; }
 }
 
-/* The headline repeats the name directly below, so phones drop it from the eyebrow. */
-@media (max-width: 620px) {
-  .eyebrow-name { display: none; }
-}
+/* Segments wrap as whole phrases, never mid-phrase. */
+.hero-eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .5rem; }
+.hero-eyebrow .eb { white-space: nowrap; }
