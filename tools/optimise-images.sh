@@ -43,9 +43,9 @@ grade "$SRC/community.jpg" "$OUT/community-700.webp" 700 82 45
 
 # The breath rave poster: a finished design, so no grade. Its film grain compresses
 # poorly, so it is sized for its on-page width (max ~26rem) at 1x and 2x.
-for width in 840 560; do
-  magick "$SRC/breath-rave-poster.jpg" -resize "${width}x" -strip "$OUT/tmp.png"
-  cwebp -quiet -q 55 -m 6 "$OUT/tmp.png" -o "$OUT/poster-$width.webp"
+for width in 760 480; do
+  magick "$SRC/breath-rave-poster.png" -resize "${width}x" -strip "$OUT/tmp.png"
+  cwebp -quiet -q 55 -m 6 "$OUT/tmp.png" -o "$OUT/poster-v2-$width.webp"
   rm "$OUT/tmp.png"
 done
 
