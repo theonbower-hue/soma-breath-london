@@ -170,6 +170,9 @@
         body: JSON.stringify({
           email: value,
           website: form.elements.website.value,
+          // Which page they signed up on. Not a tracking identifier, so it is sent
+          // whatever the cookie choice — page_url is withheld without consent.
+          source: document.body.getAttribute("data-signup-source") || "",
           consent: consent,
           event_id: consent ? eventId : "",
           fbp: consent ? cookie("_fbp") : "",

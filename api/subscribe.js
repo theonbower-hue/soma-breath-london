@@ -2,6 +2,8 @@
 //
 // The page never talks to Brevo directly: the API key stays server-side.
 // Env: BREVO_API_KEY, BREVO_LIST_ID (set in Vercel → Settings → Environment Variables).
+// Optional: BREVO_LIST_ID_RAVE adds rave-page sign-ups to a second list as well as the
+// main one, so where someone came from survives a later re-signup.
 // Optional: META_CAPI_TOKEN sends the sign-up to Meta's Conversions API, but only for
 // visitors who accepted cookies. META_TEST_EVENT_CODE routes events to Events Manager's
 // "Test events" tab while checking the setup; remove it afterwards.
@@ -13,6 +15,10 @@ const META_PIXEL_ID = "1773555936905379";
 const META_URL = `https://graph.facebook.com/v23.0/${META_PIXEL_ID}/events`;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+const EXTRA_LISTS = {
+  rave: "BREVO_LIST_ID_RAVE",
+};
 
 const UTM_FIELDS = {
   utm_source: "UTM_SOURCE",
@@ -112,6 +118,19 @@ module.exports = async function handler(req, res) {
     return send(res, 500, { ok: false, error: "server_config" });
   }
 
+  // Everyone joins the main list. A recognised source adds a second one on top,
+  // so the main list stays the single count of how many people we have.
+  const listIds = [listId];
+  const extraVar = EXTRA_LISTS[clean(body.source, 20).toLowerCase()];
+  if (extraVar) {
+    const extraId = Number(process.env[extraVar]);
+    if (Number.isInteger(extraId) && extraId > 0 && extraId !== listId) {
+      listIds.push(extraId);
+    } else {
+      console.error("subscribe: source list not configured —", extraVar, extraId ? "invalid" : "MISSING");
+    }
+  }
+
   const attributes = {};
   // Only send UTMs that are present. With updateEnabled, an empty value would
   // wipe the source recorded when this person first signed up.
@@ -132,7 +151,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         email,
         attributes,
-        listIds: [listId],
+        listIds,
         updateEnabled: true,
       }),
       signal: AbortSignal.timeout(8000),
